@@ -1,0 +1,20 @@
+Funciones Lineales;funcionesLinealesG1_1.png;¿Por Cual de estos puntos pasa la recta?;(0,-3);(-3,0);(0,3);(1,2);(0,-3)
+Funciones Lineales;funcionesLinealesG1_2.png;Halle el corte con el eje y:;0;4;3;No tiene;3
+Funciones Lineales;funcionesLinealesG1_3.png;Determinar el dominio de la función :;ℝ-{2,-1};ℝ;ℝ-{-2,1};ℝ ≠ 0;ℝ-{2,-1}
+Funciones Lineales;funcionesLinealesG1_4.png;Determinar el dominio de la función :;ℝ-{2,-1};ℝ;ℝ-{-2,1};ℝ ≠ 0;ℝ
+Funciones Lineales;funcionesLinealesG1_5.png;Determinar el dominio de la función :;ℝ-{1,1};ℝ;ℝ-{0};ℝ ≠ 0;ℝ-{0}
+Funciones Lineales;funcionesLinealesG1_6.png;Determinar el dominio de la función :;0;ℝ;ℝ-{-2,1};ℝ-{0};ℝ
+Funciones Lineales;funcionesLinealesG1_7.png;Esta imagen pertenece a la función :;f(x) = 2x-1;f(x) = 3x+2;f(x) = 3x-2;f(x) = 2x+1;f(x) = 2x-1
+Funciones Lineales;funcionesLinealesG1_8.png;Esta imagen pertenece a la función :;f(x) = 2x-1;f(x) = 3x+2;f(x) = 3x-2;f(x) = 2x-3;f(x) = 2x-3
+Funciones Lineales;funcionesLinealesG1_9.png;Esta imagen pertenece a la función :;f(x) = (2/3)x+5;f(x) = (1/2)x+2;f(x) = x-2;f(x) = 2x+1;f(x) = (2/3)x+5
+Funciones Lineales;funcionesLinealesG1_10.png;Esta imagen pertenece a la función :;f(x) = 2x+3;f(x) = 2x-3;f(x) = x-2;f(x) = 2x+1;f(x) = 2x-3
+Límites;Limites_1.png;Al evaluar el límite tenemos como resultado:;4;Indefinido;2;3;3
+Límites;Limites_2.png;Al evaluar el límite tenemos como resultado:;4;Indefinido;8;3;8
+Límites;Limites_3.png;Al evaluar el límite tenemos como resultado:;4;5;Indefinido;3;5
+Límites;Limites_4.png;Al evaluar el límite tenemos como resultado:;35;Indefinido;81;5;81
+Límites;Limites_5.png;Al evaluar el límite tenemos como resultado:;81;17;9;3;17
+Límites;Limites_6.png;Al evaluar el límite tenemos como resultado:;9;25;6;Indefinido;6
+Límites;Limites_7.png;Al evaluar el límite tenemos como resultado:;6;0;1;Indefinido;1
+Límites;Limites_8.png;Al evaluar el límite tenemos como resultado:;6;0;1;Indefinido;0
+Límites;Limites_9.png;Al evaluar el límite tenemos como resultado:;14;0;2;Indefinido;2
+Límites;Limites_10.png;Al evaluar el límite tenemos como resultado:;2;65;25;55;65
