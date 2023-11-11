@@ -313,7 +313,11 @@ public class PEstudiante extends javax.swing.JFrame {
     }//GEN-LAST:event_lblCursoActionPerformed
 
     private void lblCGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblCGActionPerformed
-        // TODO add your handling code here:
+        ContenidoG frame = new ContenidoG();
+        frame.setVisible(true);
+        this.setVisible(false);
+
+
     }//GEN-LAST:event_lblCGActionPerformed
 
     private void lblPerfil2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblPerfil2ActionPerformed

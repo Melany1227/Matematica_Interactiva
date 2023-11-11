@@ -131,7 +131,6 @@ public class Taller extends JFrame {
         JRadioButton button4 = new JRadioButton(resp4);
         button4.setBounds(50, 400, 200, 30);
 
-        // Crea un nuevo ButtonGroup para cada pestaña
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add(button1);
         buttonGroup.add(button2);
@@ -146,19 +145,18 @@ public class Taller extends JFrame {
         verificarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Utiliza el buttonGroup local en lugar del atributo de la clase
                 verificarRespuesta(buttonGroup);
             }
         });
        
-        panelEjercicio.add(labelIdentificador);  // Agrega al panel de la pestaña actual
-        panelEjercicio.add(labelURL);  // Agrega al panel de la pestaña actual
-        panelEjercicio.add(labelPregunta);  // Agrega al panel de la pestaña actual
-        panelEjercicio.add(button1);  // Agrega al panel de la pestaña actual
-        panelEjercicio.add(button2);  // Agrega al panel de la pestaña actual
-        panelEjercicio.add(button3);  // Agrega al panel de la pestaña actual
-        panelEjercicio.add(button4);  // Agrega al panel de la pestaña actual
-        panelEjercicio.add(verificarButton);  // Agrega al panel de la pestaña actual
+        panelEjercicio.add(labelIdentificador);  
+        panelEjercicio.add(labelURL);  
+        panelEjercicio.add(labelPregunta);  
+        panelEjercicio.add(button1);  
+        panelEjercicio.add(button2);  
+        panelEjercicio.add(button3); 
+        panelEjercicio.add(button4);  
+        panelEjercicio.add(verificarButton);  
     }
     
     private void verificarRespuesta(ButtonGroup buttonGroup) {
@@ -181,18 +179,15 @@ public class Taller extends JFrame {
 
         if (!algunaRespuestaSeleccionada) {
             JOptionPane.showMessageDialog(this, "Debes seleccionar una respuesta antes de continuar", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            return; // Sale del método si ninguna respuesta ha sido seleccionada
+            return; 
         }
 
-        // Verificar la respuesta seleccionada y mostrar un mensaje
         boolean respuestaCorrecta = false;
         for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements();) {
             AbstractButton button = buttons.nextElement();
             if (button.isSelected()) {
                 String respuestaSeleccionadaTexto = button.getText();
-                System.out.println(respuestaSeleccionadaTexto);
-                String respuestaCorrectaTexto = elementos[7]; // Respuesta correcta se encuentra en la posición 7
-                System.out.println(elementos[7]);
+                String respuestaCorrectaTexto = elementos[7]; 
                 respuestaCorrecta = respuestaSeleccionadaTexto.equals(respuestaCorrectaTexto);
 
                 if (respuestaCorrecta) {
@@ -231,10 +226,8 @@ public class Taller extends JFrame {
             tabbedPane.setSelectedIndex(ejercicioActual);       
 
         } else {
-            // Se han completado todos los ejercicios, puedes mostrar un mensaje de resumen o realizar acciones adicionales
             JOptionPane.showMessageDialog(this, "Todos los ejercicios completados. Respuestas correctas: " + respuestasCorrectas +
                     ", Respuestas incorrectas: " + respuestasIncorrectas, "Fin del Taller", JOptionPane.INFORMATION_MESSAGE);
-            // Puedes cerrar la aplicación u realizar otras acciones necesarias
             dispose();
         }
     }
