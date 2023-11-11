@@ -22,7 +22,7 @@ public class Temario extends JFrame {
         // Configuración de la ventana principal
         setTitle("Práctica");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(700, 400); // Tamaño de la ventana 700x400 píxeles
+        setSize(824, 558); // Tamaño de la ventana 700x400 píxeles
 
         ImageIcon icono = new ImageIcon(getClass().getResource("/img/Logo1.png"));
         this.setIconImage(icono.getImage());
@@ -30,7 +30,7 @@ public class Temario extends JFrame {
         JPanel headerPanel = new JPanel();
         headerPanel.setBackground(new Color(0, 128, 128));
         headerPanel.setBorder(new EmptyBorder(10, 10, 10, 10)); // Agregar margen alrededor del encabezado
-        headerPanel.setLayout(new BorderLayout());
+        headerPanel.setLayout(new BorderLayout());  
         titleLabel = new JLabel("Temario");
         titleLabel.setForeground(Color.WHITE);
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -54,7 +54,7 @@ public class Temario extends JFrame {
         add(bodyPanel, BorderLayout.CENTER);
 
         // Lista desplegable
-        String[] opciones = {"Seleccione una opción:","Funciones Lineales", "Límites", "Derivadas", "Inecuaciones", "Ecuaciones", "Ecuaciones Cuadráticas", "Integrales"};
+        String[] opciones = {"Seleccione una opción:","Funciones Lineales", "Límites", "Derivadas", "Inecuaciones Lineales", "Ecuaciones", "Ecuaciones Cuadráticas", "Integrales"};
         JComboBox<String> listaDesplegable = new JComboBox<>(opciones);
         listaDesplegable.setPreferredSize(new Dimension(150, 30)); // Tamaño de la lista desplegable
         listaDesplegable.setMaximumRowCount(8); // Mostrar todas las opciones a la vez
@@ -111,8 +111,8 @@ public class Temario extends JFrame {
 
 
         buttonPanel.add(enlacesExternosButton);
-        buttonPanel.add(talleresButton);
         buttonPanel.add(examenesButton);
+        buttonPanel.add(talleresButton);
         buttonPanel.add(ejerciciosButton);
         buttonPanel.add(devolverButton);
 
@@ -135,7 +135,7 @@ public class Temario extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 
-                if (listaDesplegable.getSelectedItem() == "")
+                if (listaDesplegable.getSelectedItem() == "Seleccione una opción:")
                 {
                     JOptionPane.showMessageDialog(null, "Debes escoger un tema válido para ver los enlaces externos");
                 }
@@ -148,10 +148,28 @@ public class Temario extends JFrame {
         });
         
         // Agrega el ActionListener para el botón "Ejercicios"
+        talleresButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (listaDesplegable.getSelectedItem() == "Seleccione una opción:")
+                {
+                    JOptionPane.showMessageDialog(null, "Debes escoger un tema válido para ver los talleres");
+                }
+                 else{
+                    String opcionSeleccionada = (String) listaDesplegable.getSelectedItem();
+                    // Crea una instancia de la ventana de ejercicios y pasa opcionSeleccionada
+                    Taller frame = new Taller(opcionSeleccionada);
+                    frame.setVisible(true);
+
+                 }
+            }
+        });
+        
+        // Agrega el ActionListener para el botón "Ejercicios"
         ejerciciosButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (listaDesplegable.getSelectedItem() == "")
+                if (listaDesplegable.getSelectedItem() == "Seleccione una opción:")
                 {
                     JOptionPane.showMessageDialog(null, "Debes escoger un tema válido para ver los ejercicios");
                 }
@@ -169,7 +187,7 @@ public class Temario extends JFrame {
         setLocationRelativeTo(null); 
     }
 
-    // Método para actualizar el título en el cuerpo y la descripción
+        // Método para actualizar el título en el cuerpo y la descripción
         private void actualizarTituloYDescripcion(String tema) {
         // Actualizar el título en el cuerpo
         titleLabel.setText(tema);
@@ -189,13 +207,13 @@ public class Temario extends JFrame {
             case "Derivadas":
                 descripcion = "Las derivadas son un concepto fundamental en cálculo. Representan la tasa de cambio instantáneo de una función en un punto dado. Este tema explorará cómo calcular derivadas, sus aplicaciones en física, economía y otros campos, así como reglas y técnicas para simplificar el proceso.";
                 break;
-            case "Inecuaciones":
+            case "Inecuaciones Lineales":
                 descripcion = "Las inecuaciones son desigualdades matemáticas que expresan relaciones entre números o variables. En este tema, se estudiarán las inecuaciones lineales y cuadráticas, así como cómo resolverlas y representar sus soluciones en la recta numérica.";
                 break;
             case "Ecuaciones":
                 descripcion = "Las ecuaciones son igualdades matemáticas que contienen una o más incógnitas. Este tema se enfocará en la resolución de ecuaciones lineales y cuadráticas, así como en la interpretación de sus soluciones y su aplicación en problemas del mundo real.";
                 break;
-            case "Ecuaciones Cua":
+            case "Ecuaciones Cuadráticas":
                 descripcion = "Las ecuaciones cuadráticas son un tipo importante de ecuaciones en la que la variable desconocida está elevada al cuadrado. Se estudiarán métodos para resolver ecuaciones cuadráticas, como la factorización y la fórmula cuadrática, y se explorarán sus aplicaciones en geometría y física.";
                 break;
             case "Integrales":

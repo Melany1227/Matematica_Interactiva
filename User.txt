@@ -1,3 +1,4 @@
 Melany;Suarez;1011392080;mel@gmail.com;1234;1234;Docente
 Allis;Serna;1023629824;allis@gmail.com;123;123;Estudiante
 Juan;Cuartas;3044463002;juan@gmail.com;1017;1017;Docente
+John;Garcia;1000534371;john78tigres@gmail.com;holacomoestas;holacomoestas;Estudiante

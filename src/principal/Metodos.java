@@ -51,6 +51,35 @@ public class Metodos {
         vPrincipal.addElement(unUser);
     }
     
+    
+     public boolean existeUsuario(String nombre, String apellido, String id) {
+    try {
+        BufferedReader br = new BufferedReader(new FileReader("User.txt"));
+        String line;
+        
+        while ((line = br.readLine()) != null) {
+            String[] datos = line.split(";");
+            if (datos.length >= 3) {
+                String Nombre = datos[0];
+                String Apellido = datos[1];
+                String ID = datos[2];
+                
+                // Comprueba si el nombre, apellido y ID coinciden
+                if (nombre.equals(Nombre) && apellido.equals(Apellido) && id.equals(ID)) {
+                    br.close();
+                    return true; // El usuario ya existe en el archivo
+                }
+            }
+        }
+        
+        br.close();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    
+    return false; // El usuario no existe en el archivo 
+    }
+    
     public void guardarArchivo(User user){
         try{
             FileWriter fw = new FileWriter("User.txt",true);

@@ -63,14 +63,13 @@ public class Perfil extends javax.swing.JFrame {
                 txt_Nombre.setText(nom + " " + ap);
                 txt_Correo.setText(datos[3]);
                 txt_Id.setText(datos[2]);
+                txt_Contra.setText(datos[4]);
 
                 // Configura los campos de texto como no editables
                 txt_Nombre.setEditable(false);
                 txt_Id.setEditable(false);
-
-                //configurar como editable
-                txt_Correo.setText(datos[3]);
-                txt_Contra.setText(datos[4]);
+                txt_Correo.setEditable(false);
+                txt_Contra.setEditable(false);
                 
                 break;  // Rompe el ciclo una vez que se encuentren los datos
             }
@@ -239,7 +238,7 @@ public class Perfil extends javax.swing.JFrame {
                 .addComponent(lbl_ImgUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btn_foto)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txt_Nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -262,7 +261,7 @@ public class Perfil extends javax.swing.JFrame {
                 .addGap(49, 49, 49))
         );
 
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 320, 500));
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 320, 510));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -412,7 +411,6 @@ public class Perfil extends javax.swing.JFrame {
                     while ((linea = br.readLine()) != null) {
                         String[] datos = linea.split(";");
                         if (datos.length == 6 && datos[3].equals(correo) && datos[4].equals(contra)) {
-                                JOptionPane.showMessageDialog(this, "Bienvenido(a), docente " + datos[0]);
                             br.close();
                             return true;
                         }
@@ -439,7 +437,6 @@ public class Perfil extends javax.swing.JFrame {
                     while ((linea = br.readLine()) != null) {
                         String[] datos = linea.split(";");
                         if (datos.length == 6 && datos[3].equals(correo) && datos[4].equals(contra)) {
-                               JOptionPane.showMessageDialog(this, "Bienvenido(a), estudiante " + datos[0]);
                             br.close();
                             return true;
 

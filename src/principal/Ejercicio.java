@@ -12,6 +12,13 @@ import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.Enumeration;
 import java.util.Random;
+import java.awt.Desktop;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+
 
 public class Ejercicio extends JFrame {
     
@@ -32,6 +39,7 @@ public class Ejercicio extends JFrame {
         this.opcionSeleccionada = opcionSeleccionada; // Asigna opcionSeleccionada al campo de la clase
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(824, 558);
+        System.out.println(opcionSeleccionada);
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Cierra solo la ventana de ejercicios al presionar el botón Cerrar
         // Agrega aquí los componentes de la ventana de ejercicios, como etiquetas, botones, etc.
@@ -52,11 +60,13 @@ public class Ejercicio extends JFrame {
       labelIdentificador.setForeground(Color.WHITE);  // Establece el texto en blanco
 
 
+      //labelURL.setBounds(/*izq-der*/300, /*arr-aba*/110, /*tama ancho*/300, /*tama largo*/100);
 
        labelURL = new JLabel();
-       labelURL.setBounds(300, 110, 200, 100);
+       labelURL.setBounds(300, 110, 200, 115);
        labelURL.setFont(new Font("Arial", Font.PLAIN, 16));
        labelURL.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+       
 
        labelPregunta = new JLabel();
        labelPregunta.setBounds(50, 220, 300, 50);
@@ -74,8 +84,6 @@ public class Ejercicio extends JFrame {
         verificarButton.setBounds(50, 440, 200, 30);
         verificarButton.setBackground(new Color(55, 100, 121));
         
-
-
 
         verificarButton.addActionListener(new ActionListener() {
             @Override
@@ -96,7 +104,37 @@ public class Ejercicio extends JFrame {
         ImageIcon imagen = new ImageIcon(getClass().getResource("/img/" + imagenPath));
         labelURL.setIcon(imagen); 
         
+        // Crea un nuevo JLabel para mostrar el nombre de la imagen
+        JLabel labelNombreImagen = new JLabel("Ver imagen: " + " " + imagenPath);
+        labelNombreImagen.setBounds(300, 225, 200, 30);
+        labelNombreImagen.setFont(new Font("Arial", Font.PLAIN, 14));
+        labelNombreImagen.setForeground(Color.BLUE);
+        labelNombreImagen.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        labelNombreImagen.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                try {
+                    // Obtén la URL del recurso desde el paquete 'img'
+                    URL imageUrl = getClass().getResource("/img/" + imagenPath);
+                    if (imageUrl != null) {
+                        // Abre la URL en el navegador predeterminado
+                        Desktop.getDesktop().browse(imageUrl.toURI());
+                    } else {
+                        System.err.println("El recurso no existe: " + imagenPath);
+                    }
+                } catch (IOException | URISyntaxException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+
+
+        panel.add(labelNombreImagen); // Agrega el JLabel con el nombre de la imagen
+        
         labelPregunta.setText(elementos[2]);
+        labelPregunta.setBounds(50, 250, 600, 30);
         
         
         resp1 = elementos[3];
@@ -176,6 +214,7 @@ public class Ejercicio extends JFrame {
             if (button.isSelected()) {
                 if (button.getText().equals(respC5)) {
                     JOptionPane.showMessageDialog(this, "¡Respuesta Correcta!", "Verificación", JOptionPane.INFORMATION_MESSAGE);
+                    this.setVisible(false);
                 } else {
                     JOptionPane.showMessageDialog(this, "Respuesta Incorrecta!", "Verificación", JOptionPane.ERROR_MESSAGE);
                 }
