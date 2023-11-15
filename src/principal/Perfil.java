@@ -253,12 +253,133 @@ public class Perfil extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private boolean verificarDocente(String correo, String contra) {
+        String tipoUsuario = obtenerTipoUsuario(correo, contra);
+
+        try {
+            if (tipoUsuario != null) {
+                if (tipoUsuario.equals("Docente")) {
+                    FileReader fr = new FileReader("Docente.txt");
+                    BufferedReader br = new BufferedReader(fr);
+                    String linea;
+                    while ((linea = br.readLine()) != null) {
+                        String[] datos = linea.split(";");
+                        if (datos.length == 6 && datos[3].equals(correo) && datos[4].equals(contra)) {
+                                JOptionPane.showMessageDialog(this, "Bienvenido(a), docente " + datos[0]);
+                            br.close();
+                            return true;
+                        }
+                    }
+                    br.close();
+                }
+            }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+        return false;
+    }
+    private boolean verificarEstudiante(String correo, String contra) {
+        String tipoUsuario = obtenerTipoUsuario(correo, contra);
+        try {
+            if (tipoUsuario != null) {
+                if (tipoUsuario.equals("Estudiante")) {
+                
+                FileReader fr = new FileReader("Estudiante.txt");
+                BufferedReader br = new BufferedReader(fr);
+
+                String linea;
+                    while ((linea = br.readLine()) != null) {
+                        String[] datos = linea.split(";");
+                        if (datos.length == 6 && datos[3].equals(correo) && datos[4].equals(contra)) {
+                               JOptionPane.showMessageDialog(this, "Bienvenido(a), estudiante " + datos[0]);
+                            br.close();
+                            return true;
+
+                        }
+                    }
+                br.close();
+                }
+            }
+            } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+    
+    
+    
     private void btn_VolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_VolverActionPerformed
-        PEstudiante frame = new PEstudiante(id);
-        frame.setVisible(true);
-        this.setVisible(false);
+         
+        String correo = txt_Correo.getText();
+        String contra = new String(txt_Contra.getPassword());
+        String tipoUsuario = obtenerTipoUsuario(correo, contra);
+        String id = obtenerIdUsuarioDesdeArchivo(correo, contra);
+        if (tipoUsuario != null) {
+            if (tipoUsuario.equals("Docente")) {
+                verificarDocente(correo, contra); 
+                PDocente frame = new PDocente(id);
+                frame.setVisible(true);
+                this.setVisible(false);
+                
+            }else {
+                if (tipoUsuario.equals("Estudiante")) {
+                                verificarEstudiante(correo, contra);
+                                PEstudiante frame = new PEstudiante(id);
+                                frame.setVisible(true);
+                                this.setVisible(false);
+                            
+                            }                 
+            }
+               
+        }else{
+            JOptionPane.showMessageDialog(this, "Inicio de sesión fallido. Verifique sus datos.");
+        }
+                                              
     }//GEN-LAST:event_btn_VolverActionPerformed
 
+    
+    public String obtenerIdUsuarioDesdeArchivo(String correo, String contra) {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("User.txt"));
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                // Supongo que cada línea del archivo está en el formato "nombre;apellido;id;correo;contra;contra2;rol"
+                String[] datos = linea.split(";");
+                if (datos.length == 7 && datos[3].equals(correo) && datos[4].equals(contra)) {
+                    br.close(); // Cierra el archivo
+                    return datos[2]; // Retorna el ID del usuario
+                }
+            }
+            br.close(); // Cierra el archivo
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null; // Retorna null si no se encuentra el usuario
+    }
+    private String obtenerTipoUsuario(String correo, String contra) {
+    try {
+        FileReader fr = new FileReader("User.txt");
+        BufferedReader br = new BufferedReader(fr);
+
+        String linea;
+        while ((linea = br.readLine()) != null) {
+            String[] datos = linea.split(";");
+            if (datos.length == 7 && datos[3].equals(correo) && datos[4].equals(contra)) {
+                
+                br.close();
+                return datos[6]; // Retorna el tipo de usuario   
+            }
+        }
+        br.close();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+
+    return null; // Si no se encuentra el usuario, retorna null
+    }
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Object[] options = {"Sí", "Cancelar"};
         int choice = JOptionPane.showOptionDialog(this, "¿Estás seguro de cerrar sesión?", "Confirmación",

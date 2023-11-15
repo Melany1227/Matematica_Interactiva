@@ -47,9 +47,12 @@ class Curso {
     public void setNombreCurso(String nombreCurso) {
         this.nombreCurso = nombreCurso;
     }
+    
+    public void incrementarCantidadEstudiantes() {
+        cantidadEstudiantes++;
+    }
 
     public void agregarEstudiante(Estudiante estudiante) {
         estudiantes.add(estudiante);
-        cantidadEstudiantes++;
     }
 }

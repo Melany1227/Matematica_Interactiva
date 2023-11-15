@@ -309,7 +309,10 @@ public class PEstudiante extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lblCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblCursoActionPerformed
-        // TODO add your handling code here:
+        this.setVisible(false);
+        VentanaCursoEstudiante frame = new VentanaCursoEstudiante(id);
+        frame.setVisible(true);
+        
     }//GEN-LAST:event_lblCursoActionPerformed
 
     private void lblCGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblCGActionPerformed
@@ -320,8 +323,7 @@ public class PEstudiante extends javax.swing.JFrame {
         Perfil frame = new Perfil(id);
         frame.setVisible(true);
         this.setVisible(false);
-    
-         
+      
     }//GEN-LAST:event_lblPerfil2ActionPerformed
 
     private void lblNota1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblNota1ActionPerformed

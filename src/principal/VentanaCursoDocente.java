@@ -120,8 +120,6 @@ private JLabel headerLabel;
             if (datos.length == 3) {
                 String code = datos[0];
               
-                
-                // Comprueba si el nombre, apellido y ID coinciden
                 if (courseCode.equals(code)) {
                     br.close();
                     return true; // El usuario ya existe en el archivo
@@ -350,7 +348,7 @@ private JLabel headerLabel;
     }*/
     
    
-     public void actualizarTxt(){
+    public void actualizarTxt(){
         try {
             File inFile = new File("curso_act.txt");
             File outFile = new File("curso.txt");
@@ -365,7 +363,7 @@ private JLabel headerLabel;
             in.close();
             out.close();
         } catch(IOException e) {
-            System.err.println("Hubo un error de entrada/salida!!!");
+            System.err.println("Hubo un error");
         }
     }
 

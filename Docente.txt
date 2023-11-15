@@ -1,2 +1,2 @@
-Melany;Suarez;1011392080;mel@gmail.com;1234;1234;Docente
-Juan;Apellido;1017923577;juan@gmail.com;1017;1017
+
+Melany;Suarez;1011392080;mel@gmail.com;1234;1234
