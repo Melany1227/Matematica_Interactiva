@@ -54,7 +54,7 @@ public class Temario extends JFrame {
         add(bodyPanel, BorderLayout.CENTER);
 
         // Lista desplegable
-        String[] opciones = {"Seleccione una opción:","Funciones Lineales", "Límites", "Derivadas", "Inecuaciones Lineales", "Ecuaciones", "Ecuaciones Cuadráticas", "Integrales"};
+        String[] opciones = {"Seleccione una opción:","Funciones Lineales", "Límites", "Derivadas", "Inecuaciones Lineales", "Ecuaciones Lineales", "Ecuaciones Cuadráticas", "Integrales"};
         JComboBox<String> listaDesplegable = new JComboBox<>(opciones);
         listaDesplegable.setPreferredSize(new Dimension(150, 30)); // Tamaño de la lista desplegable
         listaDesplegable.setMaximumRowCount(8); // Mostrar todas las opciones a la vez
@@ -101,34 +101,36 @@ public class Temario extends JFrame {
         JButton ejerciciosButton = new JButton("Ejercicios");
         ejerciciosButton.setBackground(new Color(0, 128, 128));
         ejerciciosButton.setForeground(Color.WHITE);
-        JButton devolverButton = new JButton("");
-
-        // Carga la imagen para el botón "Regresar"
-        ImageIcon iconoRegresar = new ImageIcon(getClass().getResource("/img/devolver.png"));
-        Icon iconDevolver = setIcono("/img/devolver.png", 40, 40);
-        devolverButton.setIcon(iconDevolver);
-        devolverButton.setPreferredSize(new Dimension(46, 41)); // Tamaño de 80x40 píxeles
 
 
         buttonPanel.add(enlacesExternosButton);
         buttonPanel.add(examenesButton);
         buttonPanel.add(talleresButton);
         buttonPanel.add(ejerciciosButton);
-        buttonPanel.add(devolverButton);
+        
+        JButton devolverButton = new JButton();
+        ImageIcon iconoRegresar = new ImageIcon(getClass().getResource("/img/devolver.png"));
+        Icon iconDevolver = setIcono("/img/devolver.png", 40, 40);
+        devolverButton.setIcon(iconDevolver);
+        devolverButton.setPreferredSize(new Dimension(46, 41)); 
+        
+        devolverButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                String id = null;
+                PEstudiante frame = new PEstudiante(id);
+                frame.setVisible(true);
+            }
+        });
+        
+        headerPanel.add(titleLabel, BorderLayout.CENTER);
+        headerPanel.add(devolverButton, BorderLayout.EAST);
 
 
         bodyPanel.add(buttonPanel, BorderLayout.SOUTH);
         
-        devolverButton.addActionListener(new ActionListener() {
-         @Override
-         public void actionPerformed(ActionEvent e) {
-             setVisible(false);
-             String id = null;
-             PEstudiante frame = new PEstudiante(id);
-             frame.setVisible(true);
-         }
-     });
-
+       
 
         // Agregar ActionListener para el botón "Enlaces Externos"
         enlacesExternosButton.addActionListener(new ActionListener() {
@@ -210,7 +212,7 @@ public class Temario extends JFrame {
             case "Inecuaciones Lineales":
                 descripcion = "Las inecuaciones son desigualdades matemáticas que expresan relaciones entre números o variables. En este tema, se estudiarán las inecuaciones lineales y cuadráticas, así como cómo resolverlas y representar sus soluciones en la recta numérica.";
                 break;
-            case "Ecuaciones":
+            case "Ecuaciones Lineales":
                 descripcion = "Las ecuaciones son igualdades matemáticas que contienen una o más incógnitas. Este tema se enfocará en la resolución de ecuaciones lineales y cuadráticas, así como en la interpretación de sus soluciones y su aplicación en problemas del mundo real.";
                 break;
             case "Ecuaciones Cuadráticas":

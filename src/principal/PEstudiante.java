@@ -74,9 +74,9 @@ public class PEstudiante extends javax.swing.JFrame {
         Icon iconContenido = setIcono("/img/cg.png", 39, 39);
         lblCG.setIcon(iconContenido);
         
-         // Para el botón lblNota1
+        /* Para el botón lblNota1
         Icon iconNotas = setIcono("/img/calificaciones.png", 39, 39);
-        lblNota1.setIcon(iconNotas);
+        lblNota1.setIcon(iconNotas);*/
 
         
        // Cargar una imagen como icono desde el paquete "img" y establecerla en la ventana
@@ -133,7 +133,6 @@ public class PEstudiante extends javax.swing.JFrame {
         lblCurso = new javax.swing.JButton();
         lblCG = new javax.swing.JButton();
         lblPerfil2 = new javax.swing.JButton();
-        lblNota1 = new javax.swing.JButton();
         lblPractica = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -247,15 +246,6 @@ public class PEstudiante extends javax.swing.JFrame {
             }
         });
 
-        lblNota1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/calificaciones.png"))); // NOI18N
-        lblNota1.setText("Notas");
-        lblNota1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(55, 100, 121), 3));
-        lblNota1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lblNota1ActionPerformed(evt);
-            }
-        });
-
         lblPractica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/practica.png"))); // NOI18N
         lblPractica.setText("Práctica");
         lblPractica.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(55, 100, 121), 3));
@@ -273,7 +263,6 @@ public class PEstudiante extends javax.swing.JFrame {
                 .addGap(40, 40, 40)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(lblPerfil2, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNota1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblCG, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblPractica, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
@@ -297,10 +286,8 @@ public class PEstudiante extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(lblPractica, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(lblNota1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
                         .addComponent(lblCG, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(87, 87, 87))))
+                        .addGap(117, 117, 117))))
         );
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
@@ -327,10 +314,6 @@ public class PEstudiante extends javax.swing.JFrame {
     
          
     }//GEN-LAST:event_lblPerfil2ActionPerformed
-
-    private void lblNota1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblNota1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblNota1ActionPerformed
 
     private void lblPracticaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblPracticaActionPerformed
         Temario frame = new Temario();
@@ -371,7 +354,6 @@ public class PEstudiante extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JButton lblCG;
     private javax.swing.JButton lblCurso;
-    private javax.swing.JButton lblNota1;
     private javax.swing.JButton lblPerfil2;
     private javax.swing.JButton lblPractica;
     private javax.swing.JLabel lblmenu;

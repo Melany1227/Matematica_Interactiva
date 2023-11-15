@@ -233,7 +233,7 @@ public class Registro extends javax.swing.JFrame {
 
     private String obtenerTipoUsuario(String correo, String contra) {
     try {
-        FileReader fr = new FileReader("/datos/User.txt");
+        FileReader fr = new FileReader("User.txt");
         BufferedReader br = new BufferedReader(fr);
 
         String linea;
@@ -328,10 +328,7 @@ public class Registro extends javax.swing.JFrame {
                 txt_Contra2.setText("");
                 Login frame = new Login();
                 frame.setVisible(true);
-                this.setVisible(false);
-                Login Frame = new Login();
-                Frame.setVisible(true);
-                this.setVisible(false);
+                this.setVisible(false);               
                 
                 } else{
                         JOptionPane.showMessageDialog(this, "La ID debe ser un número y tener como máximo 10 dígitos.");

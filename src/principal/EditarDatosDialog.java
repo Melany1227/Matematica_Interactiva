@@ -9,13 +9,14 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
+import principal.Perfil;
 
 public class EditarDatosDialog extends JDialog {
     private JTextField txtNuevoCorreo;
     private JPasswordField txtNuevaContra;
     private JPasswordField txtConfirmarContra;
     private String id;
-
+   
     public EditarDatosDialog(JFrame parent, String id) {
         super(parent, "Editar Datos", true);
         this.id = id;
@@ -64,47 +65,63 @@ public class EditarDatosDialog extends JDialog {
     private void guardarCambios() {
         // Obtener los datos ingresados
         String nuevoCorreo = txtNuevoCorreo.getText();
-        char[] nuevaContra = txtNuevaContra.getPassword();
-        char[] confirmarContra = txtConfirmarContra.getPassword();
+        String nuevaContra = new String(txtNuevaContra.getPassword());
+        String confirmarContra = new String(txtConfirmarContra.getPassword());
 
-        // Validar si los campos están vacíos
-        if (nuevoCorreo.isEmpty() || nuevaContra.length == 0 || confirmarContra.length == 0) {
+        if (nuevoCorreo.isEmpty() || nuevaContra.isEmpty() || confirmarContra.isEmpty()) {
             JOptionPane.showMessageDialog(EditarDatosDialog.this, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
-        // Comprobar si las contraseñas coinciden
-        if (!Arrays.equals(nuevaContra, confirmarContra)) {
+
+        if (!nuevaContra.equals(confirmarContra)) {
             JOptionPane.showMessageDialog(this, "Las contraseñas no coinciden", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         try {
-            // Leer el archivo User.txt y guardar los datos actualizados
-            BufferedReader br = new BufferedReader(new FileReader("User.txt"));
-            String linea;
-            StringBuilder newFileData = new StringBuilder();
-            while ((linea = br.readLine()) != null) {
-                String[] datos = linea.split(";");
-                if (datos.length == 7 && datos[2].equals(id)) {
-                    // Reemplazar el correo y contraseña en la línea
-                    datos[3] = nuevoCorreo;
-                    datos[4] = new String(nuevaContra);
-                }
-                newFileData.append(String.join(";", datos)).append("\n");
-            }
-            br.close();
+            // Actualizar el archivo User.txt
+            actualizarArchivo("User.txt", id, nuevoCorreo, nuevaContra, confirmarContra);
 
-            // Guardar los datos actualizados en el archivo
-            FileWriter writer = new FileWriter("User.txt");
-            writer.write(newFileData.toString());
-            writer.close();
+            // Actualizar el archivo Estudiante.txt
+            actualizarArchivo("Estudiante.txt", id, nuevoCorreo, nuevaContra, confirmarContra);
+
+            // Actualizar el archivo Docente.txt
+            actualizarArchivo("Docente.txt", id, nuevoCorreo, nuevaContra, confirmarContra);
 
             JOptionPane.showMessageDialog(this, "Datos actualizados exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             dispose(); // Cerrar la ventana emergente
+
         } catch (IOException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error al guardar los cambios", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+
+    private void actualizarArchivo(String nombreArchivo, String id, String nuevoCorreo, String nuevaContra, String confirmarContra) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(nombreArchivo));
+        String linea;
+        StringBuilder newFileData = new StringBuilder();
+        while ((linea = br.readLine()) != null) {
+            String[] datos = linea.split(";");
+            if (datos.length >= 4 && datos[2].equals(id)) {
+                // Reemplazar el correo y contraseñas en la línea
+                datos[3] = nuevoCorreo;
+                datos[4] = nuevaContra;
+                datos[5] = confirmarContra; 
+            }
+            newFileData.append(String.join(";", datos)).append("\n");
+        }
+        br.close();
+
+        FileWriter writer = new FileWriter(nombreArchivo);
+        writer.write(newFileData.toString());
+        writer.close();
+    }
+
+
+
+
+
+
 }

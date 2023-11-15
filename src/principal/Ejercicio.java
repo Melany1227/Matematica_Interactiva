@@ -39,7 +39,6 @@ public class Ejercicio extends JFrame {
         this.opcionSeleccionada = opcionSeleccionada; // Asigna opcionSeleccionada al campo de la clase
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(824, 558);
-        System.out.println(opcionSeleccionada);
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Cierra solo la ventana de ejercicios al presionar el botón Cerrar
         // Agrega aquí los componentes de la ventana de ejercicios, como etiquetas, botones, etc.
@@ -69,7 +68,7 @@ public class Ejercicio extends JFrame {
        
 
        labelPregunta = new JLabel();
-       labelPregunta.setBounds(50, 220, 300, 50);
+       labelPregunta.setBounds(50, 220, 400, 50);
        labelPregunta.setFont(new Font("Arial", Font.PLAIN, 16));
 
 

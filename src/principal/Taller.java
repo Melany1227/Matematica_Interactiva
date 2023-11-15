@@ -113,7 +113,7 @@ public class Taller extends JFrame {
 
         labelPregunta = new JLabel(); 
         labelPregunta.setText(elementos[2]);
-        labelPregunta.setBounds(50, 220, 300, 50);
+        labelPregunta.setBounds(50, 220, 400, 50);
         labelPregunta.setFont(new Font("Arial", Font.PLAIN, 16));
 
         resp1 = elementos[3];
