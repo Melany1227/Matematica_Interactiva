@@ -1,1 +1,2 @@
 Allison;Serna;1011392080;allis@gmail.com;1111;1111
+Juan;Cuartas;101792;juan@gmail.com;1;1

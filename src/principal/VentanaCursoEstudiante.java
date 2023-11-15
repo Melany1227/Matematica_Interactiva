@@ -40,6 +40,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -115,7 +116,7 @@ public class VentanaCursoEstudiante extends JFrame  {
         
     
     
-    ingresarACurso();
+    ingresarACurso(id);
     }
 
     private VentanaCursoEstudiante() {
@@ -147,24 +148,32 @@ public class VentanaCursoEstudiante extends JFrame  {
     return false; // El usuario no existe en el archivo 
     }
     
-    public void ingresarACurso() {
+    public void ingresarACurso(String id) {
         
         String codigoCurso = JOptionPane.showInputDialog(null, "Ingrese el código del curso:").trim();
          boolean mat = codigoCurso.matches("\\d+");
-         System.out.println(mat);
          
-    
          
         if (codigoCurso.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Por favor, ingrese un código de curso.");
         } else {
             if (mat == true && codigoCurso.length() == 4) {
                 if (existeCurso(codigoCurso)) {
-                JOptionPane.showMessageDialog(this, "Ingreso al curso exitoso.");
-                actualizarCantidadEstudiantes(codigoCurso);
                 
-                } else {
-                    JOptionPane.showMessageDialog(this, "El código de curso no existe.");
+                    if (!existeEstudiante(codigoCurso, id)){
+                        registrarEstudiante(codigoCurso, id);
+                        actualizarCantidadEstudiantes(codigoCurso);
+                    JOptionPane.showMessageDialog(this, "Ingreso al curso exitoso.");
+                    
+                    }else{
+                        JOptionPane.showMessageDialog(this, "Aquí le abre el curso.");
+
+                    }
+                
+                } 
+                
+                else {
+                    JOptionPane.showMessageDialog(this, "El curso no existe.");
                 }
             }else{
                 JOptionPane.showMessageDialog(this, "Código de curso no es válido.");
@@ -174,47 +183,78 @@ public class VentanaCursoEstudiante extends JFrame  {
         }
     }
     
+    
+    private void registrarEstudiante(String courseCode,  String id) {
+            try{
+            FileWriter fw = new FileWriter("Estudiante_Curso.txt",true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
+            pw.print(courseCode + ";");
+            pw.print(id + "\n");
+            //pw.print(nombreEstudiante + "\n");
+            pw.close();
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+    
+    public boolean existeEstudiante(String courseCode, String id) {
+    try {
+        BufferedReader br = new BufferedReader(new FileReader("Estudiante_Curso.txt"));
+        String line;
+        
+        while ((line = br.readLine()) != null) {
+            String[] datos = line.split(";");
+            if (datos.length == 2) {
+                String code = datos[0];
+                String doc = datos[1];
+                
+                     if(id.equals(doc) && courseCode.equals(code)){
+                            br.close();
+                            return true;  
+                    }
+            }
+        }
+        
+        br.close();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    
+    return false; // El usuario no existe en el archivo 
+    }
+    
+    
     private void actualizarCantidadEstudiantes(String codigoCurso) {
         // Nombre del archivo
         String nombreArchivo = "curso.txt";
 
         try {
-            // Crear una referencia al archivo
             File archivo = new File(nombreArchivo);
             
             // Crear una referencia al archivo temporal
             File archivoTemporal = new File("temp.txt");
 
-            // Crear objetos para leer y escribir en el archivo
             BufferedReader br = new BufferedReader(new FileReader(archivo));
             BufferedWriter bw = new BufferedWriter(new FileWriter(archivoTemporal));
 
-            // Leer cada línea del archivo
             String linea;
             while ((linea = br.readLine()) != null) {
-                // Dividir la línea en campos usando el punto y coma como delimitador
                 String[] campos = linea.split(";");
-                
-                // Verificar si el código del curso coincide
-                if (campos.length == 3 && campos[0].equals(codigoCurso)) {
-                    // Incrementar la cantidad de estudiantes en 1
+                   if (campos.length == 3 && campos[0].equals(codigoCurso)) {
                     int cantidadEstudiantes = Integer.parseInt(campos[2]);
                     cantidadEstudiantes++;
                     
-                    // Actualizar la línea con la nueva cantidad de estudiantes
                     linea = campos[0] + ";" + campos[1] + ";" + cantidadEstudiantes;
                 }
                 
-                // Escribir la línea en el archivo temporal
                 bw.write(linea);
                 bw.newLine();
             }
 
-            // Cerrar los objetos de lectura y escritura
             br.close();
             bw.close();
 
-            // Reemplazar el archivo original con el archivo temporal
             archivo.delete();
             archivoTemporal.renameTo(archivo);
 
