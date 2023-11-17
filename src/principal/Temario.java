@@ -13,6 +13,8 @@ import java.awt.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class Temario extends JFrame {
     private JLabel titleLabel;
@@ -30,7 +32,7 @@ public class Temario extends JFrame {
         // Panel de encabezado
         this.id = id;  
         JPanel headerPanel = new JPanel();
-        headerPanel.setBackground(new Color(0, 128, 128));
+        headerPanel.setBackground(new Color(55,100,121));
         headerPanel.setBorder(new EmptyBorder(10, 10, 10, 10)); // Agregar margen alrededor del encabezado
         headerPanel.setLayout(new BorderLayout());  
         titleLabel = new JLabel("Temario");
@@ -92,16 +94,16 @@ public class Temario extends JFrame {
         buttonPanel.setBorder(new EmptyBorder(0, 20, 20, 0)); // Márgenes en la parte inferior y izquierda
 
         JButton enlacesExternosButton = new JButton("Enlaces Externos");
-        enlacesExternosButton.setBackground(new Color(0, 128, 128));
+        enlacesExternosButton.setBackground(new Color(55,100,121));
         enlacesExternosButton.setForeground(Color.WHITE);
         JButton talleresButton = new JButton("Talleres");
-        talleresButton.setBackground(new Color(0, 128, 128));
+        talleresButton.setBackground(new Color(55,100,121));
         talleresButton.setForeground(Color.WHITE);
         JButton examenesButton = new JButton("Exámenes");
-        examenesButton.setBackground(new Color(0, 128, 128));
+        examenesButton.setBackground(new Color(55,100,121));
         examenesButton.setForeground(Color.WHITE);
         JButton ejerciciosButton = new JButton("Ejercicios");
-        ejerciciosButton.setBackground(new Color(0, 128, 128));
+        ejerciciosButton.setBackground(new Color(55,100,121));
         ejerciciosButton.setForeground(Color.WHITE);
 
 
@@ -146,6 +148,7 @@ public class Temario extends JFrame {
                 else{
                     String opcionSeleccionada = (String) listaDesplegable.getSelectedItem();
                     mostrarEnlacesExternos(opcionSeleccionada);
+                    //link();
                 }
                 
             }
@@ -245,35 +248,76 @@ public class Temario extends JFrame {
         descripcionTextArea.setText(descripcion);
     }
 
-    // Método para mostrar una ventana emergente con enlaces externos
+    
     private void mostrarEnlacesExternos(String opcionSeleccionada) {
         // Aquí puedes definir los enlaces externos para cada tema
-        String enlaces = "";
+        String[] enlaces = new String[3];
+
         switch (opcionSeleccionada) {
             case "Funciones Lineales":
-                enlaces = "Videos recomendados; Funciones:\n1. Enlace 1\n2. Enlace 2\n3. Enlace 3";
+                enlaces[0] = "https://youtu.be/AoZpzAoC1Qg?si=4N6QCY4Ps-wuNdSm";
+                enlaces[1] = "https://youtu.be/PnATAsxu_oo?si=csVGKgNw2iMAP_TO";
+                enlaces[2] = "https://youtu.be/AM6Y--Jc4Fw?si=Itra3Ccu7kO45cvJ";
                 break;
             case "Limites":
-                enlaces = "Videos recomendados; Derivadas\n1. https://www.youtube.com/watch?v=Ll7xfe3HoZE\n2. Enlace 2\n3. Enlace 3";
-                break;
-            case "Derivadas":
-                enlaces = "Videos recomendados; Derivadas\n1. Enlace 1\n2. Enlace 2\n3. Enlace 3";
-                break;
-            case "Inecuaciones":
-                enlaces = "Videos recomendados; Inecuaciones:\n1. https://www.youtube.com/watch?v=Ll7xfe3HoZE \n2. Enlace 2\n3. Enlace 3";
-                break;
-            case "Ecuaciones":
-                enlaces = "Videos recomendados; Ecuaciones:\n1. Enlace 1\n2. Enlace 2\n3. Enlace 3";
-                break;
-            case "Ecuaciones Cua":
-                enlaces = "Videos recomendados; Ecuaciones Cua:\n1. https://www.youtube.com/watch?v=Ll7xfe3HoZE\n2. Enlace 2\n3. Enlace 3";
-                break;
-            case "Integrales":
-                enlaces = "Videos recomendados; Integrales \n1. Enlace 1\n2. Enlace 2\n3. Enlace 3";
+                enlaces[0] = "https://www.youtube.com/watch?v=Ll7xfe3HoZE";
+                enlaces[1] = "Enlace 2";
+                enlaces[2] = "Enlace 3";
                 break;
         }
 
-        JOptionPane.showMessageDialog(this, enlaces, "Enlaces Externos", JOptionPane.INFORMATION_MESSAGE);
+        JPanel enlacesPanel = new JPanel();
+        enlacesPanel.setLayout(new GridLayout(3, 1)); // 3 filas, 1 columna
+
+        for (String enlace : enlaces) {
+            JButton enlaceButton = new JButton(enlace);
+            enlaceButton.setBackground(new Color(0,0,0));
+            enlaceButton.setForeground(Color.WHITE);
+            enlaceButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (enlace.startsWith("http")) {
+                        // Si el enlace comienza con "http", abrir el enlace en el navegador
+                        abrirEnlace(enlace);
+                    } else {
+                        // Si no, mostrar un mensaje o realizar otra acción
+                        JOptionPane.showMessageDialog(Temario.this, "Enlace no válido: " + enlace);
+                    }
+                }
+
+                private void abrirEnlace(String enlace) {
+                    try {
+                        java.awt.Desktop.getDesktop().browse(new java.net.URI(enlace));
+                    } catch (IOException | URISyntaxException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
+            enlacesPanel.add(enlaceButton);
+        }
+        JOptionPane.showMessageDialog(this, enlacesPanel, "Enlaces Externos", JOptionPane.PLAIN_MESSAGE);
+    }
+
+
+
+
+    
+    //método para ir a un link desde un boton
+    private void link(){
+        if(java.awt.Desktop.isDesktopSupported()){
+            java.awt.Desktop computadora = java.awt.Desktop.getDesktop();
+            if (computadora.isSupported(java.awt.Desktop.Action.BROWSE)){
+                try{
+                java.net.URI link = new java.net.URI("https://www.youtube.com/watch?v=Ll7xfe3HoZE");
+                computadora.browse(link);
+                }catch(IOException  | URISyntaxException e){
+                    e.printStackTrace(); 
+                }
+            }
+        }else{
+            System.out.println("La computadora no soporta la clase");
+            System.exit(0);
+        }  
     }
 
     public static void main(String[] args) {

@@ -15,15 +15,16 @@ import javax.swing.JFrame;
  */
 public class EstudianteCurso extends javax.swing.JFrame {
     String id;
-    //private final String codigoIngresado;
+    private  String codigo;
+    //que también pase el nombre
 
     /**
      * Creates new form EstudianteCurso
      */
-    public EstudianteCurso(/*String codigoIngresado*/String id) {
+    public EstudianteCurso(String codigo,String id) {
         initComponents();
        // System.out.println(codigoIngresado);
-      //  this.codigoIngresado = codigoIngresado;
+        this.codigo = codigo;
         this.setLocationRelativeTo(null);//para que la interfaz aparezca en el centro
         this.setResizable(false); // Hace que la ventana no sea redimensionable
         this.id = id;  

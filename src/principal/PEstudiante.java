@@ -304,15 +304,15 @@ public class PEstudiante extends javax.swing.JFrame {
        boolean codigoValido = false;
 
         do {
-            String codigoIngresado = JOptionPane.showInputDialog(this, "Ingrese el código del curso:");
+            String codigo = JOptionPane.showInputDialog(this, "Ingrese el código del curso:");
 
-            if (codigoIngresado != null && !codigoIngresado.isEmpty()) {
+            if (codigo != null && !codigo.isEmpty()) {
                 // Verifica la longitud del código y si solo contiene dígitos
-                if (codigoIngresado.length() == 4 && codigoIngresado.matches("\\d+")) {
+                if (codigo.length() == 4 && codigo.matches("\\d+")) {
                     // 1. Validar el código que si existe el curso o sino diga que no existe el curso 
                     // Abrir el txt de cursos para validar si existe el curso 
                     // Si existe y es correcto el código entonces que ingrese a la ventana y en la tabla de estudiantes aparezca el estudiante
-                    EstudianteCurso frame = new EstudianteCurso(/**codigoIngresado*/id);
+                    EstudianteCurso frame = new EstudianteCurso(codigo,id);
                     frame.setVisible(true);
                     dispose();
                     codigoValido = true;
