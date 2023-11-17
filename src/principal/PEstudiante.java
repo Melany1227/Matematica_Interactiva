@@ -298,7 +298,8 @@ public class PEstudiante extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    
     private void lblCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblCursoActionPerformed
        boolean codigoValido = false;
 
@@ -311,7 +312,7 @@ public class PEstudiante extends javax.swing.JFrame {
                     // 1. Validar el código que si existe el curso o sino diga que no existe el curso 
                     // Abrir el txt de cursos para validar si existe el curso 
                     // Si existe y es correcto el código entonces que ingrese a la ventana y en la tabla de estudiantes aparezca el estudiante
-                    EstudianteCurso frame = new EstudianteCurso(/**codigoIngresado*/);
+                    EstudianteCurso frame = new EstudianteCurso(/**codigoIngresado*/id);
                     frame.setVisible(true);
                     dispose();
                     codigoValido = true;
@@ -327,7 +328,7 @@ public class PEstudiante extends javax.swing.JFrame {
     }//GEN-LAST:event_lblCursoActionPerformed
 
     private void lblCGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblCGActionPerformed
-        ContenidoG frame = new ContenidoG();
+        ContenidoG frame = new ContenidoG(id);
         frame.setVisible(true);
         this.setVisible(false);
 
@@ -335,16 +336,13 @@ public class PEstudiante extends javax.swing.JFrame {
     }//GEN-LAST:event_lblCGActionPerformed
 
     private void lblPerfil2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblPerfil2ActionPerformed
-        Perfil frame = new Perfil(id);
-        frame.setVisible(true);
+        Perfil perfil = new Perfil(id);
+        perfil.setVisible(true);
         this.setVisible(false);
-      
-    
-         
     }//GEN-LAST:event_lblPerfil2ActionPerformed
 
     private void lblPracticaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblPracticaActionPerformed
-        Temario frame = new Temario();
+        Temario frame = new Temario(id);
         frame.setVisible(true);
         this.setVisible(false);
 

@@ -17,16 +17,18 @@ import java.awt.event.ActionListener;
 public class Temario extends JFrame {
     private JLabel titleLabel;
     private JTextArea descripcionTextArea;
+    private String id;
 
-    public Temario() {
+
+    public Temario(String id) {
         // Configuración de la ventana principal
         setTitle("Práctica");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(824, 558); // Tamaño de la ventana 700x400 píxeles
-
         ImageIcon icono = new ImageIcon(getClass().getResource("/img/Logo1.png"));
         this.setIconImage(icono.getImage());
         // Panel de encabezado
+        this.id = id;  
         JPanel headerPanel = new JPanel();
         headerPanel.setBackground(new Color(0, 128, 128));
         headerPanel.setBorder(new EmptyBorder(10, 10, 10, 10)); // Agregar margen alrededor del encabezado
@@ -117,10 +119,10 @@ public class Temario extends JFrame {
         devolverButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-                String id = null;
-                PEstudiante frame = new PEstudiante(id);
-                frame.setVisible(true);
+                PEstudiante principal = new PEstudiante(id);
+                principal.setVisible(true);
+                dispose();
+
             }
         });
         
@@ -201,6 +203,10 @@ public class Temario extends JFrame {
         
 
         setLocationRelativeTo(null); 
+    }
+
+    private Temario() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
         // Método para actualizar el título en el cuerpo y la descripción

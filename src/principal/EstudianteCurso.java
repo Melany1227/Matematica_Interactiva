@@ -14,18 +14,19 @@ import javax.swing.JFrame;
  * @author allil
  */
 public class EstudianteCurso extends javax.swing.JFrame {
-
+    String id;
     //private final String codigoIngresado;
 
     /**
      * Creates new form EstudianteCurso
      */
-    public EstudianteCurso(/*String codigoIngresado*/) {
+    public EstudianteCurso(/*String codigoIngresado*/String id) {
         initComponents();
        // System.out.println(codigoIngresado);
       //  this.codigoIngresado = codigoIngresado;
         this.setLocationRelativeTo(null);//para que la interfaz aparezca en el centro
         this.setResizable(false); // Hace que la ventana no sea redimensionable
+        this.id = id;  
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Cierra solo la ventana de ejercicios al presionar el botón Cerrar
         this.setTitle("Curso"); 
         ImageIcon icono = new ImageIcon(getClass().getResource("/img/Logo1.png"));
@@ -46,6 +47,10 @@ public class EstudianteCurso extends javax.swing.JFrame {
         Icon iconOk = setIcono("/img/ok.png", 39, 39);
         btnTS.setIcon(iconOk);
         
+    }
+
+    private EstudianteCurso() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
    /* private EstudianteCurso() {
@@ -227,10 +232,7 @@ public class EstudianteCurso extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnTSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTSActionPerformed
-        ContenidoG frame = new ContenidoG();
-        frame.setVisible(true);
-        this.setVisible(false);
-
+       
     }//GEN-LAST:event_btnTSActionPerformed
 
     private void btnlTAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlTAActionPerformed
@@ -242,10 +244,9 @@ public class EstudianteCurso extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNotas1ActionPerformed
 
     private void btn_VolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_VolverActionPerformed
-        setVisible(false);
-        String id = null;
-        PEstudiante frame = new PEstudiante(id);
-        frame.setVisible(true);
+        PEstudiante principal = new PEstudiante(id);
+        principal.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btn_VolverActionPerformed
 
     /**

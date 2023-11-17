@@ -17,13 +17,16 @@ import javax.swing.event.ChangeListener;
 public class ContenidoG extends JFrame {
     private JLabel titleLabel;
     private JTextArea descripcionTextArea;
+    private String id;
 
-    public ContenidoG() {
+
+    public ContenidoG(String id) {
         super("Contenido General");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(824, 558);
         setResizable(false);
         setLocationRelativeTo(null);
+        this.id = id;  // Asigna el ID del usuario
         ImageIcon icono = new ImageIcon(getClass().getResource("/img/Logo1.png"));
         this.setIconImage(icono.getImage());
 
@@ -116,10 +119,9 @@ public class ContenidoG extends JFrame {
         devolverButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-                String id = null;
-                PEstudiante frame = new PEstudiante(id);
-                frame.setVisible(true);
+                PEstudiante principal = new PEstudiante(id);
+                principal.setVisible(true);
+                dispose();
             }
         });
 
@@ -165,6 +167,10 @@ public class ContenidoG extends JFrame {
         
         setLocationRelativeTo(null); 
     }//Fin método constructor
+
+    private ContenidoG() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
     // Método para actualizar el título en el cuerpo y la descripción
         private void actualizarTituloYDescripcion(String tema) {
