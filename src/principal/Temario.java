@@ -159,7 +159,6 @@ public class Temario extends JFrame {
                 }
                  else{
                     String opcionSeleccionada = (String) listaDesplegable.getSelectedItem();
-                    // Crea una instancia de la ventana de ejercicios y pasa opcionSeleccionada
                     Taller frame = new Taller(opcionSeleccionada);
                     frame.setVisible(true);
 
@@ -177,9 +176,24 @@ public class Temario extends JFrame {
                 }
                  else{
                     String opcionSeleccionada = (String) listaDesplegable.getSelectedItem();
-                    // Crea una instancia de la ventana de ejercicios y pasa opcionSeleccionada
                     Ejercicio ventanaEjercicios = new Ejercicio(opcionSeleccionada);
                     ventanaEjercicios.setVisible(true);
+
+                 }
+            }
+        });
+        // Agrega el ActionListener para el botón "Examen"
+        examenesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (listaDesplegable.getSelectedItem() == "Seleccione una opción:")
+                {
+                    JOptionPane.showMessageDialog(null, "Debes escoger un tema válido para ver el examen");
+                }
+                 else{
+                    String opcionSeleccionada = (String) listaDesplegable.getSelectedItem();
+                    Examen frame = new Examen(opcionSeleccionada);
+                    frame.setVisible(true);
 
                  }
             }

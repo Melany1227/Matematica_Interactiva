@@ -11,12 +11,18 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.TimerTask;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
+
 
 
 /**
@@ -26,8 +32,9 @@ import javax.swing.Timer;
 public class PEstudiante extends javax.swing.JFrame {
     private String id;
     private final JLabel mensajeLabel;
-    private final JLabel mensaj;
     private final Timer timer;
+    private final List<String> listaImagenes;
+    private int indiceImagenActual;
     private final String[] mensajes = {
        "El conocimiento es el tesoro más grande que puedes adquirir. "
             + "Invirtiendo en tu educación, estás invirtiendo en tu futuro.",
@@ -45,7 +52,9 @@ public class PEstudiante extends javax.swing.JFrame {
         "La actitud determina la altitud. Mantén una actitud positiva y llegarás lejos.",
         "La educación no es preparación para la vida; la educación es la vida en sí misma.\" - John Dewey",
         "El conocimiento es el recurso más valioso que puedes poseer. Nadie puede quitártelo.",
+        
     };
+    
     
     private int mensajeActual;
     /**
@@ -56,14 +65,15 @@ public class PEstudiante extends javax.swing.JFrame {
         this.setResizable(false); // Hace que la ventana no sea redimensionable
         this.setLocationRelativeTo(null);//para que la interfaz aparezca en el centro
         this.setTitle("Ventana Estudiante"); // Establece el título de la ventana
-        this.id = id;  // Asigna el ID del usuario
-        // lblPerfil2.setIcon(setIcono("/img/icono_perfil.jpg", lblPerfil2));
+        this.id = id; 
+        
+        
         // Para el botón lblPerfil2
         Icon iconPerfil = setIcono("/img/usuario.png", 39, 39);
         lblPerfil2.setIcon(iconPerfil);
 
         // Para el botón lblCurso
-        Icon iconCurso = setIcono("/img/c.png", 41, 41);
+        Icon iconCurso = setIcono("/img/tareas2.png", 41, 41);
         lblCurso.setIcon(iconCurso);
         
          // Para el botón lblPractica
@@ -74,27 +84,43 @@ public class PEstudiante extends javax.swing.JFrame {
         Icon iconContenido = setIcono("/img/cg.png", 39, 39);
         lblCG.setIcon(iconContenido);
         
-        /* Para el botón lblNota1
-        Icon iconNotas = setIcono("/img/calificaciones.png", 39, 39);
-        lblNota1.setIcon(iconNotas);*/
-
-        
-       // Cargar una imagen como icono desde el paquete "img" y establecerla en la ventana
         ImageIcon icono = new ImageIcon(getClass().getResource("/img/Logo1.png"));
         this.setIconImage(icono.getImage());
-        // Crea un JLabel para mostrar los mensajes
         mensajeLabel = new JLabel();
         jPanel3.add(mensajeLabel); // Agrega el JLabel al jPanel2
-        mensaj = new JLabel();
-        jPanel4.add(mensaj); // Agrega el JLabel al jPanel2
         
+        listaImagenes = cargarImagenesDesdeCarpeta("img");
         
         // Configura un temporizador para cambiar los mensajes cada 6 segundos
-        timer = new Timer(6000, (ActionEvent e) -> {
+        timer = new Timer(1000, (ActionEvent e) -> {
             cambiarMensaje();
         });
         timer.start();
+    }//Fin método
+
+    // Método para cargar las imágenes desde la carpeta
+    private List<String> cargarImagenesDesdeCarpeta(String rutaCarpeta) {
+        File carpeta = new File(rutaCarpeta);
+        String[] archivos = carpeta.list();
+        return archivos != null ? new ArrayList<>(Arrays.asList(archivos)) : new ArrayList<>();
     }
+
+    // Método para cambiar la imagen actual
+    private void cambiarImagen() {
+        if (!listaImagenes.isEmpty()) {
+            String nombreImagen = listaImagenes.get(indiceImagenActual);
+            ImageIcon icono = new ImageIcon(getClass().getResource("img"));
+            mensajeLabel.setIcon(icono);
+
+            indiceImagenActual++;
+            if (indiceImagenActual >= listaImagenes.size()) {
+                indiceImagenActual = 0; // Reinicia al principio cuando alcanza el final de la lista
+            }
+        }
+    }
+        
+        
+        
 
     private PEstudiante() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -105,15 +131,16 @@ public class PEstudiante extends javax.swing.JFrame {
     private void cambiarMensaje() {
     jLabel1.setText(StrToHtml(mensajes[mensajeActual]));
     mensajeActual = (mensajeActual + 1) % mensajes.length;
-    jLabel2.setText(StrToHtml("El propósito es mejorar el aprendizaje de cálculo diferencial en estudiantes universitarios del Politécnico Jaime Isaza Cadavid en 2023 a través de una aplicación interactiva que motive, refuerce la comprensión de conceptos matemáticos y desarrolle habilidades esenciales en matemáticas."));
-    jLabel3.setText(StrToHtml("<html><p>"+"Juan Manuel Cuartas Escobar(Full Stack)." + "<html><p>"
+    /* jLabel2.setText(StrToHtml("El propósito es mejorar el aprendizaje de cálculo diferencial en estudiantes universitarios del Politécnico Jaime Isaza Cadavid en 2023 a través de una aplicación interactiva que motive, refuerce la comprensión de conceptos matemáticos y desarrolle habilidades esenciales en matemáticas."));
+     // jLabel3.setText(StrToHtml("<html><p>"+"Juan Manuel Cuartas Escobar(Full Stack)." + "<html><p>"
             + "Correo Electrónico: juan_cuartas23231@elpoli.edu.com"  
     ));
-    jLabel4.setText(StrToHtml("Melany Julieth Suarez Rivera(Full Stack)" + "<html><p>"
+    //  jLabel4.setText(StrToHtml("Melany Julieth Suarez Rivera(Full Stack)" + "<html><p>"
             + "Correo Electrónico: melanyjsuarez@gmail.com" ));
-    jLabel5.setText(StrToHtml("Allison Serna Lopera(Full Stack)" + "<html><p>"
-            + "Correo Electrónico: allisonsernalopera@gmail.com" ));
+    //  jLabel5.setText(StrToHtml("Allison Serna Lopera(Full Stack)" + "<html><p>"
+            + "Correo Electrónico: allisonsernalopera@gmail.com" ));*/
     }
+    
     public String StrToHtml(String mensajes){
         return "<html><p>" + mensajes + "</p><html>";
     }
@@ -126,10 +153,7 @@ public class PEstudiante extends javax.swing.JFrame {
         lblmenu = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        lblIMG = new javax.swing.JLabel();
         lblCurso = new javax.swing.JButton();
         lblCG = new javax.swing.JButton();
         lblPerfil2 = new javax.swing.JButton();
@@ -170,17 +194,10 @@ public class PEstudiante extends javax.swing.JFrame {
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(55, 100, 121));
-        jLabel1.setText("Bienvenidos a Funny Math");
         jLabel1.setMaximumSize(new java.awt.Dimension(564, 16));
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        jLabel2.setText("Sobre Nosotros...");
-
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        lblIMG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/x.png"))); // NOI18N
+        lblIMG.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -190,35 +207,22 @@ public class PEstudiante extends javax.swing.JFrame {
                 .addGap(56, 56, 56)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 130, Short.MAX_VALUE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 144, Short.MAX_VALUE))
+                    .addComponent(lblIMG, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(49, 49, 49)
+                .addComponent(lblIMG, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        lblCurso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/c.png"))); // NOI18N
+        lblCurso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/tareas2.png"))); // NOI18N
         lblCurso.setText("Curso");
         lblCurso.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(55, 100, 121), 3));
         lblCurso.addActionListener(new java.awt.event.ActionListener() {
@@ -279,7 +283,7 @@ public class PEstudiante extends javax.swing.JFrame {
                         .addGap(1, 1, 1)
                         .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
                         .addComponent(lblPerfil2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(lblCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -296,7 +300,30 @@ public class PEstudiante extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lblCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblCursoActionPerformed
-        // TODO add your handling code here:
+       boolean codigoValido = false;
+
+        do {
+            String codigoIngresado = JOptionPane.showInputDialog(this, "Ingrese el código del curso:");
+
+            if (codigoIngresado != null && !codigoIngresado.isEmpty()) {
+                // Verifica la longitud del código y si solo contiene dígitos
+                if (codigoIngresado.length() == 4 && codigoIngresado.matches("\\d+")) {
+                    // 1. Validar el código que si existe el curso o sino diga que no existe el curso 
+                    // Abrir el txt de cursos para validar si existe el curso 
+                    // Si existe y es correcto el código entonces que ingrese a la ventana y en la tabla de estudiantes aparezca el estudiante
+                    EstudianteCurso frame = new EstudianteCurso(/**codigoIngresado*/);
+                    frame.setVisible(true);
+                    dispose();
+                    codigoValido = true;
+                } else {
+                    JOptionPane.showMessageDialog(this, "El código debe contener exactamente 4 dígitos y no debe contener letras.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Operación cancelada o código no válido.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                break; 
+            }
+        } while (!codigoValido);
+
     }//GEN-LAST:event_lblCursoActionPerformed
 
     private void lblCGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblCGActionPerformed
@@ -311,6 +338,7 @@ public class PEstudiante extends javax.swing.JFrame {
         Perfil frame = new Perfil(id);
         frame.setVisible(true);
         this.setVisible(false);
+      
     
          
     }//GEN-LAST:event_lblPerfil2ActionPerformed
@@ -345,15 +373,12 @@ public class PEstudiante extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JButton lblCG;
     private javax.swing.JButton lblCurso;
+    private javax.swing.JLabel lblIMG;
     private javax.swing.JButton lblPerfil2;
     private javax.swing.JButton lblPractica;
     private javax.swing.JLabel lblmenu;

@@ -50,8 +50,7 @@ public class Metodos {
     public void guardar(User unUser){
         vPrincipal.addElement(unUser);
     }
-    
-    
+
      public boolean existeUsuario(String nombre, String apellido, String id) {
     try {
         BufferedReader br = new BufferedReader(new FileReader("User.txt"));
