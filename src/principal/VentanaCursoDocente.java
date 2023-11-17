@@ -21,6 +21,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -46,6 +47,8 @@ private JLabel headerLabel;
     private JButton deleteCourseButton;
     private JButton backButton;
     
+  
+    
     //Curso curso = new Curso(String codigo, String nombreCurso, int cantidadEstudiantes);
 
     public VentanaCursoDocente(String id) {
@@ -54,6 +57,10 @@ private JLabel headerLabel;
     setTitle("Gestión de Cursos y Notas");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setSize(700, 400);
+    
+    // Cargar una imagen como icono desde el paquete "img" y establecerla en la ventana
+        ImageIcon icono = new ImageIcon(getClass().getResource("/img/IconoMA.png"));
+        this.setIconImage(icono.getImage());
     
     this.setResizable(false);
         this.setLocationRelativeTo(null);
@@ -70,13 +77,13 @@ private JLabel headerLabel;
         add(headerLabel, BorderLayout.NORTH);
 
         createCourseButton = new JButton("Crear Curso");
-        createCourseButton.setPreferredSize(new Dimension(120, 40));
+        createCourseButton.setPreferredSize(new Dimension(200, 40));
         createCourseButton.setMargin(new Insets(10, 10, 10, 10));
-        createCourseButton.setBackground(new Color(0, 128, 128));
+        createCourseButton.setBackground(new Color(55, 100, 121));
         createCourseButton.setForeground(Color.WHITE);
        
         deleteCourseButton = new JButton("Eliminar Curso");
-        deleteCourseButton.setPreferredSize(new Dimension(120, 40));
+        deleteCourseButton.setPreferredSize(new Dimension(200, 40));
         deleteCourseButton.setMargin(new Insets(10, 10, 10, 10));
         deleteCourseButton.setBackground(new Color(255, 0, 0)); // Color rojo
         deleteCourseButton.setForeground(Color.WHITE);
@@ -84,7 +91,7 @@ private JLabel headerLabel;
         backButton = new JButton("Atrás");
         backButton.setPreferredSize(new Dimension(200, 40));
         backButton.setMargin(new Insets(10, 10, 10, 10));
-        backButton.setBackground(new Color(0, 128, 128));
+        backButton.setBackground(new Color(55, 100, 121));
         backButton.setForeground(Color.WHITE);
        
         deleteCourseButton.addActionListener(new ActionListener() {
@@ -97,8 +104,7 @@ private JLabel headerLabel;
             public void actionPerformed(ActionEvent e) {
                 PDocente frame = new PDocente(id);
                 frame.setVisible(true);
-                VentanaCursoDocente frame2 = new VentanaCursoDocente(id);
-                frame2.setVisible(false);
+                dispose();
             }
         });
 
@@ -229,8 +235,9 @@ private JLabel headerLabel;
         courseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                VentanaAlumnos2 ventanaAlumnos2 = new VentanaAlumnos2(courseName); // Cambiar por el curso seleccionado
+                ventanaAlumnos2.setVisible(true);
                 // Implementa aquí la lógica para mostrar los estudiantes del curso
-                // Puedes abrir una nueva ventana o actualizar la información en esta misma ventana.
             }
         });
 
@@ -279,9 +286,6 @@ private JLabel headerLabel;
                             coursesPanel.remove(courseButton);
                             String lineToRemove = nombreCursoAEliminar;
                             
-                            
-
-                            
                              try{  
                                  
                                 File inputFile = new File("curso.txt");
@@ -319,35 +323,19 @@ private JLabel headerLabel;
                 // Actualizar el panel
                 coursesPanel.revalidate();
                 coursesPanel.repaint();
-                // También puedes eliminar los datos del curso del archivo si es necesario
-                // (no se muestra cómo hacerlo en tu código actual)
+                
             }
         }
       
     }   
 }
 
-            // Muestra un cuadro de diálogo para seleccionar el curso a eliminar
-        /*Object[] options = cursos.toArray();
-        Curso cursoAEliminar = (Curso) JOptionPane.showInputDialog(this,
-                "Selecciona el curso que deseas eliminar:",
-                "Eliminar Curso",
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                options,
-                options[0]);
-
-        if (cursoAEliminar != null) {
-           
-            cursos.remove(cursoAEliminar);
-            actualizarVentana();
-        }
-        }
-
-        
-    }*/
     
-   
+   public void listaEstudiantes(){
+       
+   }
+    
+    
     public void actualizarTxt(){
         try {
             File inFile = new File("curso_act.txt");
@@ -375,11 +363,7 @@ private JLabel headerLabel;
         coursesPanel.repaint();
     }
    
-    //private void cargarCursosDesdeArchivo() {
-        //java.util.List<Curso> cursosLeidos = Metodos.leerArchivoCursos("curso.txt");
-        //cursos.addAll(cursosLeidos);
-        //crearBotonesCursos();  // Crea botones para los cursos existentes
-    //}
+    
    
     private void cargarCursosDesdeArchivo() {
     try (BufferedReader br = new BufferedReader(new FileReader("curso.txt"))) {

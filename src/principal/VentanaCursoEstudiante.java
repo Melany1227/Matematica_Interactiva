@@ -42,6 +42,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -58,17 +59,22 @@ public class VentanaCursoEstudiante extends JFrame  {
     private JButton ingresarCursoButton;
     private JButton backButton;
     private String id;
+    private String nombre;
     private ArrayList<Curso> cursos;
     
     
     public VentanaCursoEstudiante(String id) {
         this.id = id;
-        
+        this.nombre = nombre;
         
 
         setTitle("Cursos y Notas");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(700, 400);
+        
+        // Cargar una imagen como icono desde el paquete "img" y establecerla en la ventana
+        ImageIcon icono = new ImageIcon(getClass().getResource("/img/IconoMA.png"));
+        this.setIconImage(icono.getImage());
 
         this.setResizable(false);
         this.setLocationRelativeTo(null);
@@ -161,7 +167,7 @@ public class VentanaCursoEstudiante extends JFrame  {
                 if (existeCurso(codigoCurso)) {
                 
                     if (!existeEstudiante(codigoCurso, id)){
-                        registrarEstudiante(codigoCurso, id);
+                        registrarEstudiante(codigoCurso, nombre, id);
                         actualizarCantidadEstudiantes(codigoCurso);
                     JOptionPane.showMessageDialog(this, "Ingreso al curso exitoso.");
                     
@@ -184,11 +190,12 @@ public class VentanaCursoEstudiante extends JFrame  {
     }
     
     
-    private void registrarEstudiante(String courseCode,  String id) {
+    private void registrarEstudiante(String courseCode, String nombre, String id) {
             try{
             FileWriter fw = new FileWriter("Estudiante_Curso.txt",true);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
+            pw.print(courseCode + ";");
             pw.print(courseCode + ";");
             pw.print(id + "\n");
             //pw.print(nombreEstudiante + "\n");
@@ -262,10 +269,6 @@ public class VentanaCursoEstudiante extends JFrame  {
             e.printStackTrace();
         }
     }
-
- 
-
-  
 
     
     public void actualizarTxt(){

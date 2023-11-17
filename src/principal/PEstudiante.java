@@ -25,6 +25,7 @@ import javax.swing.Timer;
  */
 public class PEstudiante extends javax.swing.JFrame {
     private String id;
+    private String nombre;
     private final JLabel mensajeLabel;
     private final JLabel mensaj;
     private final Timer timer;
@@ -56,7 +57,8 @@ public class PEstudiante extends javax.swing.JFrame {
         this.setResizable(false); // Hace que la ventana no sea redimensionable
         this.setLocationRelativeTo(null);//para que la interfaz aparezca en el centro
         this.setTitle("Ventana Estudiante"); // Establece el título de la ventana
-        this.id = id;  // Asigna el ID del usuario
+        this.id = id;
+        this.nombre = nombre;// Asigna el ID del usuario
         // lblPerfil2.setIcon(setIcono("/img/icono_perfil.jpg", lblPerfil2));
         // Para el botón lblPerfil2
         Icon iconPerfil = setIcono("/img/usuario.png", 39, 39);

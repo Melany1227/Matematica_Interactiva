@@ -284,7 +284,9 @@ public class PDocente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPerfil1ActionPerformed
 
     private void btnContenidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContenidoActionPerformed
-        
+        Tareas frame = new Tareas();
+        frame.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btnContenidoActionPerformed
 
     private void btn_NoseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_NoseActionPerformed
