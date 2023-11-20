@@ -1,0 +1,51 @@
+Objetivo general
+-Preciso y corto
+-Cómo
+-Para quien
+-Para 
+
+Objetivos específicos:
+Analizar
+Diseñar
+Codificar
+Validar
+Implementar
+
+Brochure:
+Tutilo
+Objetivo General
+Alcance
+Valores
+Sobre la aplicación
+Sobre nosotros
+
+Mapa conceptual
+Valores
+
+Resumen:
+-para quien va dirigido
+-en que consiste
+-alcance
+-objetivo general
+
+Alcance: desde donde empieza hasta donde termina, o sea, las limitaciones del proyecto
+Restricciones: lo que no va haber
+Alcance ámbito: explicación de lo que se enfoca el aplicacion, como usuarios, funcionalidades, ext.
+
+
+en la clase para subir pdf: codigo;fechaI;FechaE;B;pdf
+editar la fecha de entrega, la bonificación y que pueda eliminar el archivo
+
+- hacer el jlabel de la img más pequeño y en el panel un botón para continuar a la pestaña siguiente
+-Quitar el header 
+-Y antes de mostrar el contenido mostrar una ventana emergente con una lista desplegable para escoger el tema y que se muestre el tema en la ventana siguiente
+
+En ventana contenido seleccionar el tema dentro de aquella ventana
+
+
+
+Cuadrante 4:
+mapa conceptual 
+valor economico: que no se tiene que compra cursos porque nuestro aplicativo es completamente gratis
+validar el brochure
+poner el cronograma complento

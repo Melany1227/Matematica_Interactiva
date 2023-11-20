@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 import javax.swing.*;
@@ -51,7 +52,7 @@ public class Examen extends JFrame {
         getContentPane().add(tabbedPane);
 
         // Agrega los ejercicios como pestañas
-        List<String[]> ejercicios = leerEjercicios("ejercicio.txt", opcionSeleccionada, 5);
+        List<String[]> ejercicios = leerEjercicios("ejercicio.txt", opcionSeleccionada);
         for (String[] ejercicio : ejercicios) {
             agregarPestanaEjercicio(ejercicio);
         }
@@ -63,24 +64,27 @@ public class Examen extends JFrame {
 
     // Método para agregar una nueva pestaña con un ejercicio
     private void agregarPestanaEjercicio(String[] elementos) {
-        JPanel panelEjercicio = new JPanel();
-        panelEjercicio.setLayout(null);
-        mostrarEjercicio(elementos, panelEjercicio);
-
-        tabbedPane.addTab(elementos[0], panelEjercicio); 
+        if (elementos.length > 0) {
+            JPanel panelEjercicio = new JPanel();
+            panelEjercicio.setLayout(null);
+            mostrarEjercicio(elementos, panelEjercicio);
+            tabbedPane.addTab(elementos[0], panelEjercicio);
+        }
     }
 
-    // Método para leer todos los ejercicios relacionados con la opción seleccionada
-    private List<String[]> leerEjercicios(String archivo, String opcionSeleccionada, int cantidadEjercicios) {
+
+    private List<String[]> leerEjercicios(String archivo, String opcionSeleccionada) {
         List<String[]> ejercicios = new ArrayList<>();
         try {
             BufferedReader br = new BufferedReader(new FileReader(archivo));
             String linea;
+            int contador = 0; // Variable para contar los ejercicios
 
-            while ((linea = br.readLine()) != null && ejercicios.size() < cantidadEjercicios) {
+            while ((linea = br.readLine()) != null && contador < 5) {
                 String[] datos = linea.split(";");
                 if (datos[0].equals(opcionSeleccionada)) {
                     ejercicios.add(datos);
+                    contador++;
                 }
             }
             br.close();
@@ -91,6 +95,7 @@ public class Examen extends JFrame {
 
         return ejercicios;
     }
+
 
     private void mostrarEjercicio(String[] elementos, JPanel panelEjercicio) {
         labelIdentificador = new JLabel(); 
@@ -165,7 +170,7 @@ public class Examen extends JFrame {
     int index = tabbedPane.getSelectedIndex();
 
     // Leer el archivo y obtener los elementos del ejercicio actual
-    List<String[]> ejercicios = leerEjercicios("ejercicio.txt", opcionSeleccionada, 5);
+    List<String[]> ejercicios = leerEjercicios("ejercicio.txt", opcionSeleccionada);
     String[] elementos = ejercicios.get(index);
 
     // Verificar si alguna respuesta ha sido seleccionada
@@ -196,13 +201,6 @@ public class Examen extends JFrame {
             while (allButtons.hasMoreElements()) {
                 allButtons.nextElement().setEnabled(false);
             }
-
-            if (respuestaCorrecta) {
-                JOptionPane.showMessageDialog(this, "¡Respuesta Correcta!", "Verificación", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "Respuesta Incorrecta!", "Verificación", JOptionPane.ERROR_MESSAGE);
-            }
-            break;
         }
     }
 

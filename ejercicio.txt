@@ -18,6 +18,16 @@ Límites;Limites_7.png;Al evaluar el límite tenemos como resultado:;6;0;1;Indef
 Límites;Limites_8.png;Al evaluar el límite tenemos como resultado:;6;0;1;Indefinido;0
 Límites;Limites_9.png;Al evaluar el límite tenemos como resultado:;14;0;2;Indefinido;2
 Límites;Limites_10.png;Al evaluar el límite tenemos como resultado:;- 2;- 5;2;5;- 5
+Derivadas;Derivada_1.jpg;La derivada de esta función es:;3X^2;X^3;X^2;3X^3;3X^2
+Derivadas;Derivada_2.jpg;La derivada de esta función es:;3X^2+1;X^3+2X+15;X^2+X;3X^2+2X+15;3X^2+2X+15
+Derivadas;Derivada_3.jpg;La derivada de esta función es:;3X^3+8X;X^3;3X^2+8X+1;3X^3+8X;3X^2+8X+1
+Derivadas;Derivada_4.jpg;La derivada de esta función es:;375X^2;125X^3+4X+1;X^2;375X^2+18X+1;375X^2+18X+1
+Derivadas;Derivada_5.jpg;La derivada de esta función es:;1;Indefinido;e^X;X^e;e^X
+Derivadas;Derivada_6.png;La derivada de esta función es:;(-5,0);(0,-5);(0, 5);(5, 0);(0,-5)
+Derivadas;Derivada_7.png;La derivada de esta función es:;x - 1/x + 1; 1 + x/1 - x;x + 1/0;x + 1/1 - x;x + 1/1 - x
+Derivadas;Derivada_8.png;La derivada de esta función es:;14x^2/5 - 42x/5;x + 1/1 - x;42x^2/5 - 14x/5;Indefinido;42x^2/5 - 14x/5
+Derivadas;Derivada_9.png;La derivada de esta función es:;3;6;-3;-6;6
+Derivadas;Derivada_10.png;La derivada de esta función es:;60x + 42;42x + 60;-60 - 42x;60x;60x + 42
 Inecuaciones Lineales;noimg.png;2x + 3 < 5x - 1 , según la incecuación la respuesta es? :;x ≥ 4/3;x ≤ 4/3;x > 3/4;x  >  4/3;x  >  4/3
 Inecuaciones Lineales;noimg.png;5x - 2 > 3x + 7 , según la incecuación la respuesta es? :;x ≥ 4.5;x  >  4.5;x  <  4.5;x  >  4/3;x  >  4.5
 Inecuaciones Lineales;noimg.png;2x + 5 ≤ 3x - 1 , según la incecuación la respuesta es? :;x  ≥  6;x  ≥  8;x  ≤  6;x ≤ 8;x  ≥  6

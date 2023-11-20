@@ -1,1 +1,2 @@
 Juan;Cuartas;10254784;juan@gmail.com;123;123
+Juan;Manuel;1024855455;juan@gmail.com;2424;2424

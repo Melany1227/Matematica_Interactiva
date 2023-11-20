@@ -58,10 +58,10 @@ public class Temario extends JFrame {
         add(bodyPanel, BorderLayout.CENTER);
 
         // Lista desplegable
-        String[] opciones = {"Seleccione una opción:","Funciones Lineales", "Límites", "Derivadas", "Inecuaciones Lineales", "Ecuaciones Lineales", "Ecuaciones Cuadráticas", "Integrales"};
+        String[] opciones = {"Seleccione una opción:","Funciones Lineales", "Límites", "Derivadas", "Inecuaciones Lineales", "Ecuaciones Lineales", "Ecuaciones Cuadráticas"};
         JComboBox<String> listaDesplegable = new JComboBox<>(opciones);
         listaDesplegable.setPreferredSize(new Dimension(150, 30)); // Tamaño de la lista desplegable
-        listaDesplegable.setMaximumRowCount(8); // Mostrar todas las opciones a la vez
+        listaDesplegable.setMaximumRowCount(7); // Mostrar todas las opciones a la vez
         bodyPanel.add(listaDesplegable, BorderLayout.NORTH);
 
         // Área de texto para la descripción
@@ -129,7 +129,7 @@ public class Temario extends JFrame {
         });
         
         headerPanel.add(titleLabel, BorderLayout.CENTER);
-        headerPanel.add(devolverButton, BorderLayout.EAST);
+        headerPanel.add(devolverButton, BorderLayout.WEST);
 
 
         bodyPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -241,9 +241,6 @@ public class Temario extends JFrame {
             case "Ecuaciones Cuadráticas":
                 descripcion = "Las ecuaciones cuadráticas son un tipo importante de ecuaciones en la que la variable desconocida está elevada al cuadrado. Se estudiarán métodos para resolver ecuaciones cuadráticas, como la factorización y la fórmula cuadrática, y se explorarán sus aplicaciones en geometría y física.";
                 break;
-            case "Integrales":
-                descripcion = "Las integrales son conceptos fundamentales en cálculo que representan la acumulación de cantidades a lo largo de una curva o superficie. En este tema, se aprenderá a calcular integrales definidas e indefinidas, así como a aplicarlas en el cálculo de áreas, volúmenes y otras aplicaciones matemáticas y científicas.";
-                break;
         }
         descripcionTextArea.setText(descripcion);
     }
@@ -259,10 +256,30 @@ public class Temario extends JFrame {
                 enlaces[1] = "https://youtu.be/PnATAsxu_oo?si=csVGKgNw2iMAP_TO";
                 enlaces[2] = "https://youtu.be/AM6Y--Jc4Fw?si=Itra3Ccu7kO45cvJ";
                 break;
-            case "Limites":
-                enlaces[0] = "https://www.youtube.com/watch?v=Ll7xfe3HoZE";
-                enlaces[1] = "Enlace 2";
-                enlaces[2] = "Enlace 3";
+            case "Límites":
+                enlaces[0] = "https://youtu.be/o2UTk8bsLS0?si=SIF4EWRitfH_GQrp";
+                enlaces[1] = "https://youtu.be/pYVVPqphPS0?si=n-FEXkAfLDOM5V_B";
+                enlaces[2] = "https://youtu.be/lwnbjwk21Lc?si=m7XimG4SNYwX-8TJ";
+                break;
+            case "Derivadas":
+                enlaces[0] = "https://youtu.be/aVNa-J8iB5I?si=QK2RUZGi8HPt6myE";
+                enlaces[1] = "https://youtu.be/_6-zwdrqD3U?si=NyCCdsPFmrekexny";
+                enlaces[2] = "https://youtu.be/U7onW7mMzLM?si=5E8mBNqE-D8L5Q3X";
+                break;
+            case "Inecuaciones Lineales":
+                enlaces[0] = "https://youtu.be/CkVXbU-PNRs?si=T0FWvtmXaxBl_URM";
+                enlaces[1] = "https://youtu.be/wfVvOQEhXd0?si=H1-fAoxugMeUzMT8";
+                enlaces[2] = "https://youtu.be/hnXLKqeDEU8?si=bvk9c_I-EYoFX_dN";
+                break;   
+            case "Ecuaciones Lineales":
+                enlaces[0] = "https://youtu.be/6Y2_dstRTfQ?si=cq3iviUfeOz5pdHH";
+                enlaces[1] = "https://youtu.be/T4ZY3GHBAME?si=jfhoCzFkviFLTyXW";
+                enlaces[2] = "https://youtu.be/qeKEA066OSs?si=TztcLz6V4bNxrnUK";
+                break;
+            case "Ecuaciones Cuadráticas":
+                enlaces[0] = "https://youtu.be/_bP6NowsO-Y?si=qK9Dipm8XtY6aDae";
+                enlaces[1] = "https://youtu.be/ZC67c5ar9mA?si=4wca0Nuz9YJJ_fW8";
+                enlaces[2] = "https://youtu.be/6JQw45YO3Fs?si=uP0rsLrLgvABb-3Y";
                 break;
         }
 

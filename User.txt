@@ -1,2 +1,3 @@
-Juan;Cuartas;10254784;juanma@gmail.com;1234;1234;Docente
+Juan;Manuel;1024855455;juan@gmail.com;2424;2424;Docente
 Allison;Serna;1023629824;allis@gmail.com;2311;2311;Estudiante
+Melany;Suarez;1025485;mel@gmail.com;2525;2525;Estudiante

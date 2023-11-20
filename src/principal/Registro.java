@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package principal;
-import Metodos.Metodos;
 import java.awt.Image;
 import java.io.BufferedReader;
 import java.io.FileReader;

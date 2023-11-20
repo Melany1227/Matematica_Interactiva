@@ -189,13 +189,6 @@ public class Taller extends JFrame {
                 String respuestaSeleccionadaTexto = button.getText();
                 String respuestaCorrectaTexto = elementos[7]; 
                 respuestaCorrecta = respuestaSeleccionadaTexto.equals(respuestaCorrectaTexto);
-
-                if (respuestaCorrecta) {
-                    JOptionPane.showMessageDialog(this, "¡Respuesta Correcta!", "Verificación", JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(this, "Respuesta Incorrecta!", "Verificación", JOptionPane.ERROR_MESSAGE);
-                }
-                break;
             }
         }
 

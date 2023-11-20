@@ -9,7 +9,11 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,7 +77,7 @@ public class PEstudiante extends javax.swing.JFrame {
         lblPerfil2.setIcon(iconPerfil);
 
         // Para el botón lblCurso
-        Icon iconCurso = setIcono("/img/tareas2.png", 41, 41);
+        Icon iconCurso = setIcono("/img/curso2.png", 41, 41);
         lblCurso.setIcon(iconCurso);
         
          // Para el botón lblPractica
@@ -222,9 +226,9 @@ public class PEstudiante extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        lblCurso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/tareas2.png"))); // NOI18N
+        lblCurso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/curso2.png"))); // NOI18N
         lblCurso.setText("Curso");
-        lblCurso.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(55, 100, 121), 3));
+        lblCurso.setBorder(null);
         lblCurso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lblCursoActionPerformed(evt);
@@ -234,7 +238,7 @@ public class PEstudiante extends javax.swing.JFrame {
         lblCG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cg.png"))); // NOI18N
         lblCG.setText("Contenido");
         lblCG.setToolTipText("");
-        lblCG.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(55, 100, 121), 3));
+        lblCG.setBorder(null);
         lblCG.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lblCGActionPerformed(evt);
@@ -243,7 +247,7 @@ public class PEstudiante extends javax.swing.JFrame {
 
         lblPerfil2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/usuario.png"))); // NOI18N
         lblPerfil2.setText("Perfil");
-        lblPerfil2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(55, 100, 121), 3));
+        lblPerfil2.setBorder(null);
         lblPerfil2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lblPerfil2ActionPerformed(evt);
@@ -252,7 +256,7 @@ public class PEstudiante extends javax.swing.JFrame {
 
         lblPractica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/practica.png"))); // NOI18N
         lblPractica.setText("Práctica");
-        lblPractica.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(55, 100, 121), 3));
+        lblPractica.setBorder(null);
         lblPractica.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lblPracticaActionPerformed(evt);
@@ -301,30 +305,28 @@ public class PEstudiante extends javax.swing.JFrame {
     
     
     private void lblCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblCursoActionPerformed
-       boolean codigoValido = false;
+      if (existeEstudiante(id)) {
+            String codigo = obtenerCurso(id);
+            EstudianteCurso frame = new EstudianteCurso(codigo, id);
+            frame.setVisible(true);
+            dispose();
+        } else {
+            String codigoCurso =JOptionPane.showInputDialog(this, "Ingrese el código del curso:");
 
-        do {
-            String codigo = JOptionPane.showInputDialog(this, "Ingrese el código del curso:");
-
-            if (codigo != null && !codigo.isEmpty()) {
-                // Verifica la longitud del código y si solo contiene dígitos
-                if (codigo.length() == 4 && codigo.matches("\\d+")) {
-                    // 1. Validar el código que si existe el curso o sino diga que no existe el curso 
-                    // Abrir el txt de cursos para validar si existe el curso 
-                    // Si existe y es correcto el código entonces que ingrese a la ventana y en la tabla de estudiantes aparezca el estudiante
-                    EstudianteCurso frame = new EstudianteCurso(codigo,id);
+            if (codigoCurso.matches("\\d{4}")) {
+                if (existeCurso(codigoCurso)) {
+                    registrarEstudiante(codigoCurso, id);
+                    actualizarCantidadEstudiantes(codigoCurso);
+                    EstudianteCurso frame = new EstudianteCurso(codigoCurso, id);
                     frame.setVisible(true);
                     dispose();
-                    codigoValido = true;
                 } else {
-                    JOptionPane.showMessageDialog(this, "El código debe contener exactamente 4 dígitos y no debe contener letras.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showInputDialog(this, "El curso no existe.");
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "Operación cancelada o código no válido.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                break; 
+                JOptionPane.showInputDialog(this, "El código del curso debe ser un número de 4 dígitos.");
             }
-        } while (!codigoValido);
-
+        }
     }//GEN-LAST:event_lblCursoActionPerformed
 
     private void lblCGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblCGActionPerformed
@@ -365,8 +367,173 @@ public class PEstudiante extends javax.swing.JFrame {
         return icono;
     }
     
+    public boolean existeCurso(String courseCode) {
+    try {
+        BufferedReader br = new BufferedReader(new FileReader("curso.txt"));
+        String line;
+        
+        while ((line = br.readLine()) != null) {
+            String[] datos = line.split(";");
+            if (datos.length >= 3) {
+                String code = datos[0];
+              
+                    if (courseCode.equals(code)) {
+                    br.close();
+                    return true; 
+                }
+            }
+        }
+        
+        br.close();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
     
+    return false;  
+    }
     
+    public String obtenerCurso(String id) {
+        String codigoCurso = "";
+        
+        try {
+            File archivo = new File("curso.txt");
+            FileReader fr = new FileReader(archivo);
+            BufferedReader br = new BufferedReader(fr);
+
+            String linea;
+
+            while ((linea = br.readLine()) != null) {
+                String[] partes = linea.split(";");
+
+                for (int i = 3; i < partes.length; i++) {
+                    if (partes[i].equals(id)) {
+                        codigoCurso = partes[0];
+                        break;
+                    }
+                }
+
+                if (!codigoCurso.isEmpty()) {
+                    break; // Si se encuentra el estudiante, se detiene la búsqueda
+                }
+            }
+
+            fr.close();
+        } catch (IOException e) {
+            System.out.println("Error al leer el archivo: " + e.getMessage());
+        }
+
+        return codigoCurso;
+    
+        
+    }
+    
+    private void registrarEstudiante(String courseCode, String id) {
+        try {
+            File archivo = new File("curso.txt");
+            FileReader fr = new FileReader(archivo);
+            BufferedReader br = new BufferedReader(fr);
+            
+            String linea;
+            StringBuilder nuevoContenido = new StringBuilder();
+            
+            while ((linea = br.readLine()) != null) {
+                String[] partes = linea.split(";");
+                
+                if (partes.length >= 3 && partes[0].equals(courseCode)) {
+                    // Si el código coincide, agregamos el ID del estudiante
+                    linea = linea + ";" + id;
+                }
+                
+                nuevoContenido.append(linea).append("\n");
+            }
+            
+            fr.close();
+            
+            // Escribir el nuevo contenido de vuelta al archivo
+            FileWriter fw = new FileWriter(archivo);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(nuevoContenido.toString());
+            bw.close();
+            JOptionPane.showMessageDialog(null, "Archivo actualizado correctamente.");
+
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Archivo no pudo ser actualizado.");
+        }
+    
+    }
+    
+    public boolean existeEstudiante(String id) {
+        
+        
+        try {
+           
+             BufferedReader br = new BufferedReader(new FileReader("curso.txt"));
+
+            String linea;
+            
+            while ((linea = br.readLine()) != null) {
+                String[] partes = linea.split(";");
+                
+                // Verificar a partir de la posición 3 hasta el final de la línea
+                for (int i = 3; i < partes.length; i++) {
+                    if (partes[i].equals(id)) {
+                        return true;  
+                    }
+                }
+            
+            }
+            
+            br.close();
+        } catch (IOException e) {
+        }
+       
+        return false;
+    }
+    
+    private void actualizarCantidadEstudiantes(String codigoCurso) {
+        // Nombre del archivo
+        try {
+            File archivo = new File("curso.txt");
+            File archivoTemporal = new File("curso_temp.txt");
+            
+            BufferedReader br = new BufferedReader(new FileReader(archivo));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(archivoTemporal));
+            
+            String linea;
+            boolean modificado = false;
+            
+            while ((linea = br.readLine()) != null) {
+                String[] partes = linea.split(";");
+                
+                if (partes.length >= 3 && partes[0].equals(codigoCurso)) {
+                    // Actualizar la cantidad de estudiantes en la línea correspondiente
+                    //partes[2] = String.valueOf(nuevaCantidadEstudiantes);
+                    int cantidadEstudiantes = Integer.parseInt(partes[2]);
+                    cantidadEstudiantes += 1;
+                    partes[2] = String.valueOf(cantidadEstudiantes); 
+                    linea = String.join(";", partes);
+                    modificado = true;
+                }
+                
+                bw.write(linea + "\n");
+            }
+            
+            br.close();
+            bw.close();
+            
+            // Reemplazar el archivo original con el archivo temporal si se ha modificado alguna línea
+            if (modificado) {
+                archivo.delete(); // Eliminar el archivo original
+                archivoTemporal.renameTo(archivo); // Renombrar el archivo temporal
+            } else {
+                archivoTemporal.delete(); // Si no se ha modificado, eliminar el archivo temporal
+            }
+            
+        } catch (IOException e) {
+            System.out.println("Error al leer/escribir el archivo: " + e.getMessage());
+        }
+    }
+
             
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
