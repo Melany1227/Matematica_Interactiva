@@ -273,14 +273,28 @@ public class TareaDocente extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(this, "El código del curso debe tener exactamente 4 dígitos numéricos.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
             return;
         }
+        
+        // Validar el código del curso antes de continuar
+        String codigoCurso = txtCodC.getText().trim();
+        if (!existeCurso(codigoCurso)) {
+            JOptionPane.showMessageDialog(this, "El código del curso no existe.", "Error", JOptionPane.ERROR_MESSAGE);
+            txtCodC.setText("");
 
-       double bonificacionValor = 0.0; // Valor por defecto
+            return;
+        }
+
+        double bonificacionValor = 0.0; // Valor por defecto
         String bonificacion = txtB.getText().trim();
         if (!bonificacion.isEmpty()) {
             try {
                 bonificacionValor = Double.parseDouble(bonificacion);
+                // Verifica que la bonificación sea un número real
+                if (bonificacionValor < 0.0) {
+                    JOptionPane.showMessageDialog(this, "La bonificación debe ser un valor numérico positivo o cero.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
             } catch (NumberFormatException e) {
-                javax.swing.JOptionPane.showMessageDialog(this, "La bonificación debe ser un valor numérico.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "La bonificación debe ser un valor numérico.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
         }
@@ -307,6 +321,29 @@ public class TareaDocente extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 }
     
+    public boolean existeCurso(String courseCode) {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("curso.txt"));
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                String[] datos = line.split(";");
+                if (datos.length >= 3) {
+                    String code = datos[0];
+
+                        if (courseCode.equals(code)) {
+                        br.close();
+                        return true; 
+                    }
+                }
+            }
+
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    return false;  
+    }
     
     private void abrirDocumentoDesdeTabla(String rutaCompleta) {
         try {
