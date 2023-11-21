@@ -260,9 +260,13 @@ public class PDocente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCDActionPerformed
 
     private void btn_TAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_TAActionPerformed
-        TareaDocente frame = new TareaDocente(id);
-        frame.setVisible(true);
-        this.setVisible(false);
+        try {
+            TareaDocente frame = new TareaDocente(id);
+            frame.setVisible(true);
+            this.setVisible(false);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(PDocente.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
 
     }//GEN-LAST:event_btn_TAActionPerformed

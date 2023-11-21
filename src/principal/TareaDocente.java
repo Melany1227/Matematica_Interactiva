@@ -19,6 +19,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -40,17 +41,13 @@ public class TareaDocente extends javax.swing.JFrame {
     private String id;
     private int filaSeleccionada = -1;
     
-
-
-    /**
-     * Creates new form TareaDocente
-     */
     public TareaDocente(String id) throws FileNotFoundException {
         initComponents();
         this.setResizable(false); // Hace que la ventana no sea redimensionable
         this.setLocationRelativeTo(null);//para que la interfaz aparezca en el centro
         this.setTitle("Subir tareas"); // Establece el título de la ventana
         this.id = id;
+        txtCodC.setEditable(false); // Hacer que el campo de texto no sea editable
         ImageIcon icono = new ImageIcon(getClass().getResource("/img/Logo1.png"));
         this.setIconImage(icono.getImage());
         
@@ -65,6 +62,28 @@ public class TareaDocente extends javax.swing.JFrame {
         btnEliminar.setIcon(iconEliminar);
         
         
+        jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                filaSeleccionada = jTable1.getSelectedRow();
+                if (filaSeleccionada != -1) {
+                    String codigo = jTable1.getValueAt(filaSeleccionada, 0).toString();
+                    String fechaEntrega = jTable1.getValueAt(filaSeleccionada, 1).toString();
+                    String bonificacion = jTable1.getValueAt(filaSeleccionada, 2).toString();
+                    String tarea = jTable1.getValueAt(filaSeleccionada, 3).toString();
+
+                    txtCodC.setText(codigo);
+                    try {
+                        java.util.Date fechaEntregaDate = new SimpleDateFormat("dd/MM/yyyy").parse(fechaEntrega);
+                        txtFe.setDate(fechaEntregaDate);
+                    } catch (ParseException ex) {
+                        ex.printStackTrace();
+                    }
+                    txtB.setText(bonificacion);
+                }
+            }
+        });
+
         
         jTable1.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
@@ -116,8 +135,8 @@ public class TareaDocente extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        btnEditar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -203,17 +222,17 @@ public class TareaDocente extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/editar.png"))); // NOI18N
-        btnEditar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarActionPerformed(evt);
-            }
-        });
-
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarActionPerformed(evt);
+            }
+        });
+
+        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/editar.png"))); // NOI18N
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
             }
         });
 
@@ -236,10 +255,10 @@ public class TareaDocente extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txtCodC)
-                            .addComponent(txtFe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtFe, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
                             .addComponent(txtB))))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
@@ -260,10 +279,10 @@ public class TareaDocente extends javax.swing.JFrame {
                     .addComponent(lblB, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtB, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(25, Short.MAX_VALUE))
@@ -332,19 +351,16 @@ public class TareaDocente extends javax.swing.JFrame {
         fileChooser.setFileFilter(filter);
         seleccion = fileChooser.showOpenDialog(this);
         
-        // En el constructor, agrega un ListSelectionListener a la tabla para capturar la fila seleccionada
         jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 int filaSeleccionada = jTable1.getSelectedRow();
                 if (filaSeleccionada != -1) {
-                    // Obtén los valores de la fila seleccionada y cárgalos en los campos de texto
                     String codigo = jTable1.getValueAt(filaSeleccionada, 0).toString();
                     String fechaEntrega = jTable1.getValueAt(filaSeleccionada, 1).toString();
                     String bonificacion = jTable1.getValueAt(filaSeleccionada, 2).toString();
 
                     txtCodC.setText(codigo);
-                    // Convierte la fecha de entrega de String a Date y asigna al JDateChooser
                     try {
                         java.util.Date fechaEntregaDate = new SimpleDateFormat("dd/MM/yyyy").parse(fechaEntrega);
                         txtFe.setDate(fechaEntregaDate);
@@ -359,16 +375,14 @@ public class TareaDocente extends javax.swing.JFrame {
         guardarInformacionEnArchivo(codigo, fechaEntrega, bonificacion, fileChooser.getSelectedFile().getAbsolutePath());    
         try {
             DefaultTableModel mdlTabla = actualizarDatos(); 
-            jTable1.setModel(mdlTabla); // Set the new model to the table
+            jTable1.setModel(mdlTabla); 
         } catch (FileNotFoundException ex) {
             Logger.getLogger(TareaDocente.class.getName()).log(Level.SEVERE, null, ex);
         }
+        JOptionPane.showMessageDialog(this, "Tarea agregada correctamente.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {
-
-    
-    }
 
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
@@ -381,12 +395,17 @@ public class TareaDocente extends javax.swing.JFrame {
 
         // Eliminar la fila de la tabla
         modelo.removeRow(filaSeleccionada);
+        txtFe.setDate(null);
+        txtCodC.setText("");
+        txtB.setText("");
+        JOptionPane.showMessageDialog(this, "Tarea eliminada correctamente.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
 
-        // Actualizar el archivo "Tareas.txt" sin la tarea eliminada
+
+
         actualizarTxt(codigo, fechaEntrega, bonificacion, tarea);
-    } else {
-        JOptionPane.showMessageDialog(this, "Selecciona una fila para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
-    }
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecciona una fila para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
 
 
     }//GEN-LAST:event_btnEliminarActionPerformed
@@ -401,12 +420,10 @@ public class TareaDocente extends javax.swing.JFrame {
 
             String line;
             while ((line = br.readLine()) != null) {
-                // Verifica si la línea contiene la tarea que se va a eliminar
                 String[] datos = line.split(";");
                 if (datos.length >= 4) {
                     String codigoTarea = datos[0];
                     if (!codigoTarea.equals(codigo) || !datos[1].equals(fechaEntrega) || !datos[2].equals(bonificacion) || !datos[3].equals(tarea)) {
-                        // Escribe la línea en el nuevo archivo
                         bw.write(line);
                         bw.newLine();
                     }
@@ -422,12 +439,73 @@ public class TareaDocente extends javax.swing.JFrame {
     }
 
 
-    
+
     private void btnDevolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDevolverActionPerformed
         PDocente frame = new PDocente(id);
         frame.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnDevolverActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+
+        // Verifica si se seleccionó una fila para editar
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Selecciona una fila para editar.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String codigo = modelo.getValueAt(filaSeleccionada, 0).toString();
+        String fechaEntrega = modelo.getValueAt(filaSeleccionada, 1).toString();
+        String bonificacion = modelo.getValueAt(filaSeleccionada, 2).toString();
+        String tarea = modelo.getValueAt(filaSeleccionada, 3).toString();
+
+        // Realiza la edición de la fecha y bonificación en la tabla
+        modelo.setValueAt(txtFe.getDate(), filaSeleccionada, 1);
+        modelo.setValueAt(txtB.getText(), filaSeleccionada, 2);
+
+        // Actualiza los campos de texto
+        txtCodC.setText(codigo);
+
+        // Actualiza el archivo "Tareas.txt" con los nuevos datos
+        actualizarArchivo();
+
+        JOptionPane.showMessageDialog(this, "Tarea editada correctamente.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+
+
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    // Método para actualizar el archivo "Tareas.txt" con los datos de la tabla
+    private void actualizarArchivo() {
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+
+        try {
+            FileWriter fw = new FileWriter("Tareas.txt");
+            BufferedWriter bw = new BufferedWriter(fw);
+
+            // Formato para la fecha
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+            // Recorre las filas de la tabla y guarda los datos en el archivo
+            for (int i = 0; i < modelo.getRowCount(); i++) {
+                for (int j = 0; j < modelo.getColumnCount(); j++) {
+                    if (j == 1) { // Si es la columna de fecha (considerando que la columna 1 es la fecha)
+                        Date fecha = (Date) modelo.getValueAt(i, j);
+                        bw.write(dateFormat.format(fecha)); // Formatea la fecha antes de escribirla
+                    } else {
+                        bw.write(modelo.getValueAt(i, j).toString());
+                    }
+                    bw.write(";");
+                }
+                bw.newLine();
+            }
+
+            bw.close();
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     
     public boolean existeCurso(String courseCode) {
@@ -456,7 +534,6 @@ public class TareaDocente extends javax.swing.JFrame {
     
     private void abrirDocumentoDesdeTabla(String rutaCompleta) {
         try {
-            // Abrir el documento
             abrirArchivo(rutaCompleta);
         } catch (IOException e) {
             e.printStackTrace();
@@ -465,12 +542,9 @@ public class TareaDocente extends javax.swing.JFrame {
     }
 
     private void abrirArchivo(String rutaCompleta) throws IOException {
-        // Crear un objeto File con la ruta completa del archivo
         File archivo = new File(rutaCompleta);
 
-        // Verificar si el archivo existe antes de intentar abrirlo
         if (archivo.exists()) {
-            // Abrir el documento
             Desktop.getDesktop().open(archivo);
         } else {
             JOptionPane.showMessageDialog(this, "El archivo no existe: " + rutaCompleta, "Error", JOptionPane.ERROR_MESSAGE);
@@ -483,10 +557,6 @@ public class TareaDocente extends javax.swing.JFrame {
             String rutaCompleta = archivoSeleccionado.getAbsolutePath();
             writer.write(codigo + ";" + fechaEntrega + ";" + bonificacion + ";" + rutaCompleta);
             writer.newLine();
-            System.out.println(codigo);
-            System.out.println(fechaEntrega);
-            System.out.println(bonificacion);
-            System.out.println(rutaCompleta);
         } catch (IOException e) {
             System.err.println("Error al escribir en el archivo: " + e.getMessage());
             e.printStackTrace();
@@ -527,12 +597,6 @@ public class TareaDocente extends javax.swing.JFrame {
         return mdlTabla;
     }
 
-
-
-    
-   
-    
-    
     /**
      * @param args the command line arguments
      */
@@ -591,4 +655,6 @@ public class TareaDocente extends javax.swing.JFrame {
     private javax.swing.JTextField txtCodC;
     private com.toedter.calendar.JDateChooser txtFe;
     // End of variables declaration//GEN-END:variables
+
+
 }
