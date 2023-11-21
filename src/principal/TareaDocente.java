@@ -11,10 +11,14 @@ import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -23,6 +27,8 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
@@ -32,11 +38,14 @@ import javax.swing.table.DefaultTableModel;
  */
 public class TareaDocente extends javax.swing.JFrame {
     private String id;
+    private int filaSeleccionada = -1;
+    
+
 
     /**
      * Creates new form TareaDocente
      */
-    public TareaDocente(String id) {
+    public TareaDocente(String id) throws FileNotFoundException {
         initComponents();
         this.setResizable(false); // Hace que la ventana no sea redimensionable
         this.setLocationRelativeTo(null);//para que la interfaz aparezca en el centro
@@ -49,34 +58,34 @@ public class TareaDocente extends javax.swing.JFrame {
         Icon iconDevolver = setIcono("/img/devolver.png", 46, 41);
         btnDevolver.setIcon(iconDevolver);
         
+        Icon iconEditar = setIcono("/img/editar.png", 42, 37);
+        btnEditar.setIcon(iconEditar);
+        
+        Icon iconEliminar = setIcono("/img/eliminar.png", 42, 37);
+        btnEliminar.setIcon(iconEliminar);
+        
+        
+        
         jTable1.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                int filaSeleccionada = jTable1.getSelectedRow();
+                filaSeleccionada = jTable1.getSelectedRow();
                 int columnaDocumento = 3; // La columna que contiene el nombre del documento en tu modelo de datos
 
-                if (filaSeleccionada != -1) {
+                if (filaSeleccionada != -1 && e.getClickCount() == 2) {
                     String nombreDocumento = jTable1.getValueAt(filaSeleccionada, columnaDocumento).toString();
                     abrirDocumentoDesdeTabla(nombreDocumento);
                 }
             }
         });
-        
-        try {
-        DefaultTableModel mdlTabla = Datos(); // Obtén el nuevo modelo con los datos actualizados
 
+
+        DefaultTableModel mdlTabla = actualizarDatos();
         if (mdlTabla != null) {
-            jTable1.setModel(mdlTabla); // Establece el nuevo modelo en la tabla
+            jTable1.setModel(mdlTabla);
         } else {
-            // Manejar el caso en que Datos() devuelve null
-            // Esto podría ser útil para depurar y entender por qué Datos() no está funcionando correctamente.
-            System.err.println("El método Datos() devolvió un modelo de tabla nulo.");
+            System.err.println("El método actualizarDatos() devolvió un modelo de tabla nulo.");
         }
-    } catch (FileNotFoundException ex) {
-        Logger.getLogger(TareaD.class.getName()).log(Level.SEVERE, null, ex);
-    }
-        
-        
-        
+  
         
     }
 
@@ -107,6 +116,8 @@ public class TareaDocente extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        btnEditar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -125,6 +136,11 @@ public class TareaDocente extends javax.swing.JFrame {
 
         btnDevolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/devolver.png"))); // NOI18N
         btnDevolver.setDefaultCapable(false);
+        btnDevolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDevolverActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -187,6 +203,20 @@ public class TareaDocente extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
+        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/editar.png"))); // NOI18N
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
+
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -196,16 +226,20 @@ public class TareaDocente extends javax.swing.JFrame {
                 .addGap(51, 51, 51)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 595, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lblCodC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lblFe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(lblB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(48, 48, 48)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txtCodC)
-                            .addComponent(txtFe, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
+                            .addComponent(txtFe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtB))))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
@@ -221,15 +255,18 @@ public class TareaDocente extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lblFe, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtFe, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblB, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtB, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addGap(27, 27, 27)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -251,44 +288,35 @@ public class TareaDocente extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCodCActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        int seleccion; // Declarar la variable
-
-        
-
+        int seleccion;
         java.util.Date fechaEntregaDate = txtFe.getDate();
-        String fechaEntrega = ""; // Inicializa la variable
+        String fechaEntrega = "";
         if (fechaEntregaDate != null) {
             java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
             fechaEntrega = sdf.format(fechaEntregaDate);
         } else {
-            // Manejar el caso en que el usuario no ha seleccionado una fecha
             JOptionPane.showMessageDialog(this, "Por favor, seleccione una fecha de entrega.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Validar que el código del curso tenga 4 dígitos
         String codigo = txtCodC.getText().trim();
-        // Validar que el código del curso tenga 4 dígitos numéricos
+
         if (codigo.length() != 4 || !codigo.matches("\\d{4}")) {
-            javax.swing.JOptionPane.showMessageDialog(this, "El código del curso debe tener exactamente 4 dígitos numéricos.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "El código del curso debe tener exactamente 4 dígitos numéricos.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
-        // Validar el código del curso antes de continuar
-        String codigoCurso = txtCodC.getText().trim();
-        if (!existeCurso(codigoCurso)) {
+
+        if (!existeCurso(codigo)) {
             JOptionPane.showMessageDialog(this, "El código del curso no existe.", "Error", JOptionPane.ERROR_MESSAGE);
             txtCodC.setText("");
-
             return;
         }
 
-        double bonificacionValor = 0.0; // Valor por defecto
+        double bonificacionValor = 0.0;
         String bonificacion = txtB.getText().trim();
         if (!bonificacion.isEmpty()) {
             try {
                 bonificacionValor = Double.parseDouble(bonificacion);
-                // Verifica que la bonificación sea un número real
                 if (bonificacionValor < 0.0) {
                     JOptionPane.showMessageDialog(this, "La bonificación debe ser un valor numérico positivo o cero.", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
@@ -302,24 +330,105 @@ public class TareaDocente extends javax.swing.JFrame {
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos PDF y Word", "pdf", "doc", "docx");
         fileChooser.setFileFilter(filter);
+        seleccion = fileChooser.showOpenDialog(this);
+        
+        // En el constructor, agrega un ListSelectionListener a la tabla para capturar la fila seleccionada
+        jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int filaSeleccionada = jTable1.getSelectedRow();
+                if (filaSeleccionada != -1) {
+                    // Obtén los valores de la fila seleccionada y cárgalos en los campos de texto
+                    String codigo = jTable1.getValueAt(filaSeleccionada, 0).toString();
+                    String fechaEntrega = jTable1.getValueAt(filaSeleccionada, 1).toString();
+                    String bonificacion = jTable1.getValueAt(filaSeleccionada, 2).toString();
 
-        seleccion = fileChooser.showOpenDialog(this); // Inicializar la variable
-
-        if (seleccion == JFileChooser.APPROVE_OPTION) {
-            File archivoSeleccionado = fileChooser.getSelectedFile();
-
-            // Guardar la información en el archivo Tareas.txt
-            guardarInformacionEnArchivo(codigo, fechaEntrega, bonificacion, archivoSeleccionado.getAbsolutePath());
-            DefaultTableModel mdlTabla = null;
-            try {
-                mdlTabla = Datos(); 
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(TareaD.class.getName()).log(Level.SEVERE, null, ex);
+                    txtCodC.setText(codigo);
+                    // Convierte la fecha de entrega de String a Date y asigna al JDateChooser
+                    try {
+                        java.util.Date fechaEntregaDate = new SimpleDateFormat("dd/MM/yyyy").parse(fechaEntrega);
+                        txtFe.setDate(fechaEntregaDate);
+                    } catch (ParseException ex) {
+                        ex.printStackTrace();
+                    }
+                    txtB.setText(bonificacion);
+                }
             }
-            jTable1.setModel(mdlTabla); // Establece el nuevo modelo en la tabla
+        });
 
+        guardarInformacionEnArchivo(codigo, fechaEntrega, bonificacion, fileChooser.getSelectedFile().getAbsolutePath());    
+        try {
+            DefaultTableModel mdlTabla = actualizarDatos(); 
+            jTable1.setModel(mdlTabla); // Set the new model to the table
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(TareaDocente.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
-}
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {
+
+    
+    }
+
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        if (filaSeleccionada != -1) {
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        String codigo = modelo.getValueAt(filaSeleccionada, 0).toString();
+        String fechaEntrega = modelo.getValueAt(filaSeleccionada, 1).toString();
+        String bonificacion = modelo.getValueAt(filaSeleccionada, 2).toString();
+        String tarea = modelo.getValueAt(filaSeleccionada, 3).toString();
+
+        // Eliminar la fila de la tabla
+        modelo.removeRow(filaSeleccionada);
+
+        // Actualizar el archivo "Tareas.txt" sin la tarea eliminada
+        actualizarTxt(codigo, fechaEntrega, bonificacion, tarea);
+    } else {
+        JOptionPane.showMessageDialog(this, "Selecciona una fila para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+
+    }//GEN-LAST:event_btnEliminarActionPerformed
+    
+    public void actualizarTxt(String codigo, String fechaEntrega, String bonificacion, String tarea) {
+        try {
+            File inFile = new File("TareasTemp.txt");
+            File outFile = new File("Tareas.txt");
+
+            BufferedReader br = new BufferedReader(new FileReader(inFile));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(outFile));
+
+            String line;
+            while ((line = br.readLine()) != null) {
+                // Verifica si la línea contiene la tarea que se va a eliminar
+                String[] datos = line.split(";");
+                if (datos.length >= 4) {
+                    String codigoTarea = datos[0];
+                    if (!codigoTarea.equals(codigo) || !datos[1].equals(fechaEntrega) || !datos[2].equals(bonificacion) || !datos[3].equals(tarea)) {
+                        // Escribe la línea en el nuevo archivo
+                        bw.write(line);
+                        bw.newLine();
+                    }
+                }
+            }
+
+            br.close();
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Hubo un error al actualizar el archivo.");
+        }
+    }
+
+
+    
+    private void btnDevolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDevolverActionPerformed
+        PDocente frame = new PDocente(id);
+        frame.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnDevolverActionPerformed
+
     
     public boolean existeCurso(String courseCode) {
         try {
@@ -370,7 +479,6 @@ public class TareaDocente extends javax.swing.JFrame {
 
     private void guardarInformacionEnArchivo(String codigo, String fechaEntrega, String bonificacion, String nombreArchivo) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("Tareas.txt", true))) {
-            // Almacena la ruta completa del archivo en lugar del nombre
             File archivoSeleccionado = new File(nombreArchivo);
             String rutaCompleta = archivoSeleccionado.getAbsolutePath();
             writer.write(codigo + ";" + fechaEntrega + ";" + bonificacion + ";" + rutaCompleta);
@@ -380,14 +488,14 @@ public class TareaDocente extends javax.swing.JFrame {
             System.out.println(bonificacion);
             System.out.println(rutaCompleta);
         } catch (IOException e) {
+            System.err.println("Error al escribir en el archivo: " + e.getMessage());
             e.printStackTrace();
         }
     }
     
-    //Método para mostrar los datos en una tabla
-    public DefaultTableModel Datos() throws FileNotFoundException {
+    //Método para actualizar los datos en la tabla
+    public DefaultTableModel actualizarDatos() throws FileNotFoundException {
         Vector cabeceras = new Vector();
-
         cabeceras.addElement("Código");
         cabeceras.addElement("Fecha de entrega");
         cabeceras.addElement("Bonificación");
@@ -396,7 +504,7 @@ public class TareaDocente extends javax.swing.JFrame {
         DefaultTableModel mdlTabla = new DefaultTableModel(cabeceras, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Esto hace que todas las celdas no sean editables
+                return false;
             }
         };
 
@@ -405,7 +513,7 @@ public class TareaDocente extends javax.swing.JFrame {
             BufferedReader br = new BufferedReader(fr);
             String d;
             while ((d = br.readLine()) != null) {
-                StringTokenizer dato = new StringTokenizer(d, ";"); // Cambiado el delimitador a ";"
+                StringTokenizer dato = new StringTokenizer(d, ";");
                 Vector x = new Vector();
                 while (dato.hasMoreTokens()) {
                     x.addElement(dato.nextToken());
@@ -418,6 +526,9 @@ public class TareaDocente extends javax.swing.JFrame {
         }
         return mdlTabla;
     }
+
+
+
     
    
     
@@ -464,6 +575,8 @@ public class TareaDocente extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDevolver;
+    private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;

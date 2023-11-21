@@ -35,6 +35,8 @@ Alcance ámbito: explicación de lo que se enfoca el aplicacion, como usuarios, 
 
 en la clase para subir pdf: codigo;fechaI;FechaE;B;pdf
 editar la fecha de entrega, la bonificación y que pueda eliminar el archivo
+----Hacer que cuando se elimine el curso se elimine el archivo
+---Errores, se me esta eliminando las tareas todas del mismo codigo en el txt
 
 - hacer el jlabel de la img más pequeño y en el panel un botón para continuar a la pestaña siguiente
 -Quitar el header 
@@ -49,3 +51,14 @@ mapa conceptual
 valor economico: que no se tiene que compra cursos porque nuestro aplicativo es completamente gratis
 validar el brochure
 poner el cronograma complento
+
+capacidad de la aplicación de escritorio:
+-rendimiento disco:
+-memoria:
+-procesador:
+
+cómo saber el rendimiento del programa?
+
+en paquetar en un .jar si el proyecto se esta desarrollando en java para medir las capacidades
+
+

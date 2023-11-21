@@ -1,1 +1,1 @@
-2525;Cálculo diferencial;2;1023629824;1025485
+2525;Cálculo;0
